@@ -1,0 +1,203 @@
+<div class="tab-pane" id="edit">
+    <form action="{{ base_url() }}/admin/profile/save" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+        <input type="hidden" name="profile[_type]" value="profile">
+        <input type="hidden" name="profile[id]" value="{{ profile.id }}">
+        <input type="hidden" name="profile[user_id]" value="{{ session.user_auth.id }}">
+
+        <div class="row">
+            <div class="col-sm-6">
+                {# Dados Pessoais #}
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title font-weight-bold"><i class="fa fa-user"></i> Dados Pessoais</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Nome completo *</label>
+                                    <input type="text" name="profile[fullname]" value="{{ profile.fullname ? profile.fullname : session.user_auth.name|u.truncate(16,' ',false) }}" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Data de nascimento *</label>
+                                    <div class="input-group mb-3 date" id="bornat" data-target-input="nearest">
+                                        <input type="text" name="profile[bornat]" value="{{ profile.bornat ? profile.bornat|date('d/m/Y') : '' }}" class="form-control datetimepicker-input" data-target="#bornat" required>
+
+                                        <div class="input-group-append" data-target="#bornat" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Gênero *</label>
+                                    <ul class="list-unstyled mb-0">
+                                        {% set genders = [{value:"Masculino"}, {value:"Feminino"}] %}
+                                        {% for gender in genders %}
+                                            <li><label><input type="radio" name="profile[gender]" value="{{ gender.value }}" {{ (profile.gender == gender.value) ? 'checked' : null }} required> {{ gender.value }}</label></li>
+                                                {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Escolaridade</label>
+                                    <select name="profile[graduation]" class="form-control">
+                                        <option value="">Selecione</option>
+                                        {% set graduations = [{value:"Maternal"}, {value:"Educação Infantil"}, {value:"Ensino Fundamental"}, {value:"Ensino Médio"}, {value:"Tecnólogo"}, {value:"Bacharel"}, {value:"Mestrado"}, {value:"Doutorado"}, {value:"Outro"}, {value:"Nenhum"}] %}
+                                        {% for graduation in graduations %}
+                                            <option value="{{ graduation.value }}" {{ (graduation.value == profile.graduation) ? 'selected' : null }}>{{ graduation.value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Estado Civil *</label>
+                                    <select name="profile[maritalstatus]" class="form-control" required>
+                                        <option value="">Selecione</option>
+                                        {% set maritalstatuses = [{value:"Solteiro(a)"}, {value:"Casado(a)"}, {value:"Viúvo(a)"}, {value:"Divorciado(a)"}, {value:"Outros"}] %}
+                                        {% for maritalstatus in maritalstatuses %}
+                                            <option value="{{ maritalstatus.value }}" {{ (maritalstatus.value == profile.maritalstatus) ? 'selected' : null }}>{{ maritalstatus.value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                    
+                    {# Anotações #}
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title font-weight-bold"><i class="fa fa-pen"></i> Anotações/Observações</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <textarea name="profile[annotation]" class="form-control" style="height: 10rem; resize: none">{{ profile.annotation }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                {# Contatos #}
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title font-weight-bold"><i class="fa fa-phone"></i> Contatos</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Telefone 1 *</label>
+                                    <input type="text" name="profile[phone1]" value="{{ profile.phone1 }}" class="form-control phone" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Telefone 2</label>
+                                    <input type="text" name="profile[phone2]" value="{{ profile.phone2 }}" class="form-control phone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>E-mail</label>
+                                    <input type="email" name="profile[email]" value="{{ profile.email }}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Endereço #}
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title font-weight-bold"><i class="fa fa-home"></i> Endereço</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>CEP</label>
+                                    <input type="text" name="profile[zipcode]" value="{{ profile.zipcode }}" class="form-control cep">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Bairro *</label>
+                                    <input type="text" name="profile[district]" value="{{ profile.district }}" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Endereço *</label>
+                                    <input type="text" name="profile[address]" value="{{ profile.address }}" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Número e complemento</label>
+                                    <input type="text" name="profile[number]" value="{{ profile.number }}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Cidade *</label>
+                                    <input type="text" name="profile[city]" value="{{ profile.city }}" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Estado</label>
+                                    {% set states = [{key:"AC",value:"Acre"},{key:"AL",value:"Alagoas"},{key:"AP",value:"Amapá"},{key:"AM",value:"Amazonas"},{key:"BA",value:"Bahia"},{key:"CE",value:"Ceará"},{key:"DF",value:"Distrito Federal"},{key:"ES",value:"Espírito Santo"},{key:"GO",value:"Goiás"},{key:"MA",value:"Maranhão"},{key:"MT",value:"Mato Grosso"},{key:"MS",value:"Mato Grosso do Sul"},{key:"MG",value:"Minas Gerais"},{key:"PA",value:"Pará"},{key:"PB",value:"Paraíba"},{key:"PR",value:"Paraná"},{key:"PE",value:"Pernambuco"},{key:"PI",value:"Piauí"},{key:"RJ",value:"Rio de Janeiro"},{key:"RN",value:"Rio Grande do Norte"},{key:"RS",value:"Rio Grande do Sul"},{key:"RO",value:"Rondônia"},{key:"RR",value:"Roraima"},{key:"SC",value:"Santa Catarina"},{key:"SP",value:"São Paulo"},{key:"SE",value:"Sergipe"},{key:"TO",value:"Tocantins"}] %}
+                                    <select name="profile[state]" class="form-control">
+                                        <option value="">Selecione</option>
+                                        {% for state in states %}
+                                            <option value="{{ state.key }}" {{ (state.key == profile.state) ? 'selected' : null }}>{{ state.value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" name="profile[updateat]" value="{{ 'now'|date('Y-m-d H:i:s') }}">
+        
+        <p class="font-weight-bold">* Campos com o símbolo do asterisco são obrigatórios.</p>
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-block btn-lg btn-primary"><i class="fa fa-check"></i> <span>Salvar Ficha de Membro</span></button>
+            </div>
+        </div>
+    </form>
+</div>

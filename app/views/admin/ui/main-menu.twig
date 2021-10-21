@@ -1,0 +1,20 @@
+{# Home/Dashboard #}
+{% if isAllow('/admin/home') %}
+    <li class="nav-item"> <a href="{{ base_url() }}/admin/home" class="nav-link {{ title == 'Início' ? 'active' : '' }}"> <i class="nav-icon fas fa-home"></i> <p>Início</p> </a> </li>
+    {% endif %}
+
+{# Controle de Usuários #}
+{% if (isAllow('/admin/users/roles/list') or isAllow('/admin/users/list') or isAllow('/admin/users/import-users-from-rsvp')) %}
+    <li class="nav-item" data-group="users">
+        <a href="javascript:;" class="nav-link"> <i class="nav-icon fas fa-users"></i> <p>Usuários <i class="right fas fa-angle-left"></i></p> </a>
+        <ul class="nav nav-treeview">
+            {% if isAllow('/admin/users/roles/list') %}
+                <li class="nav-item"> <a href="{{ base_url() }}/admin/users/roles/list" class="nav-link {{ title == 'Grupos' ? 'active' : '' }}">&nbsp;<p>Grupos</p> </a> </li>
+                {% endif %}
+
+            {% if isAllow('/admin/users/list') %}
+                <li class="nav-item"> <a href="{{ base_url() }}/admin/users/list" class="nav-link {{ title == 'Lista de Usuários' ? 'active' : '' }}">&nbsp;<p>Lista de Usuários</p> </a> </li>
+                {% endif %}
+        </ul>
+    </li>
+{% endif %}

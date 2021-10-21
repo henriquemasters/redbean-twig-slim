@@ -1,0 +1,87 @@
+<div class="tab-pane active" id="info">
+    <div class="row">
+        <div class="col-sm-6">
+            {# Dados Pessoais #}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title font-weight-bold"><i class="fa fa-user"></i> Dados Pessoais</h3>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr> <th class="text-right">Nome:</th> <td>{{ profile.fullname ? profile.fullname : session.user_auth.name|u.truncate(16,' ',false) }}</td> </tr>
+                            <tr> <th class="text-right">Nascimento:</th> <td>{{ ((profile.bornat) ? profile.bornat|date('d/m/Y') : null)|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">Faixa Etária:</th> <td>{{ profile.groupage|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">Gênero:</th> <td>{{ profile.gender|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">Escolaridade:</th> <td>{{ profile.graduation|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">Estado Civil:</th> <td>{{ profile.maritalstatus|default('Não Informado') }}</td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {# Outras Informações #}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title font-weight-bold"><i class="fa fa-plus"></i> Outras Informações</h3>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr> <th class="text-right">Situação:</th> <td>{{ profile.memberstatus|default('Ativo') }}</td> </tr>
+                            <tr> <th class="text-right">Atualização:</th> <td>{{ ((profile.updateat) ? profile.updateat|date('d/m/Y H:i:s') : null)|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">ID/Login:</th> <td class="text-primary">{{ session.user_auth.login }}</td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            {# Contatos #}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title font-weight-bold"><i class="fa fa-phone"></i> Contatos</h3>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr> <th class="text-right">Tel. 1:</th> <td>{{ profile.phone1|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">Tel. 2:</th> <td>{{ profile.phone2|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">E-mail:</th> <td class="text-primary"><a href="{{ profile.email ? ('mailto:'~profile.email) : 'javascript:;' }}" class="text-primary">{{ profile.email|default('Não Informado') }}</a></td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {# Endereço #}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title font-weight-bold"><i class="fa fa-home"></i> Endereço</h3>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr> <th class="text-right">Endereço:</th> <td>{{ profile.address|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">Bairro:</th> <td>{{ profile.district|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">Número:</th> <td>{{ profile.number|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">CEP:</th> <td>{{ profile.zipcode|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">Cidade:</th> <td>{{ profile.city|default('Não Informado') }}</td> </tr>
+                            <tr> <th class="text-right">Estado:</th> <td>{{ profile.state|default('Não Informado') }}</td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {# Anotações #}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title font-weight-bold"><i class="fa fa-pen"></i> Anotações/Observações</h3>
+                </div>
+
+                <div class="card-body">{{ profile.annotation|default('Nenhuma anotação ou observação no momento.') }}</div>
+            </div>
+        </div>
+    </div>
+</div>

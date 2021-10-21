@@ -1,0 +1,48 @@
+{# Herda o Layout do Arquivo template.wig #}
+{% extends 'template.twig' %}
+
+{# Adiciona um arquivo de estilo CSS ao template.twig #}
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+
+{# Corpo/Conteúdo do site #}
+{% block content %}
+    <section class="page-title" style="background-image: url('{{ base_url() }}/assets/imgs/slider/slide-5.jpg');">
+        <div class="container">
+            <div class="row">
+                <div class="col col-xs-12">
+                    <h2>404</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ base_url() }}">Home</a></li>
+                        <li>404</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="error-404-section section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col col-xs-12">
+                    <div class="content clearfix">
+                        <div class="error">
+                            <h2>404</h2>
+                        </div>
+                        <div class="error-message">
+                            <h3>Oops! Página não encontrada!</h3>
+                            <p>Pedimos desculpas, mas não conseguimos encontrar a página que você solicitou. Isso pode ser porque você digitou o endereço incorretamente ou a página não existe.</p>
+                            <a href="{{ base_url() }}" class="theme-btn-s2">Voltar ao Início</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{# Adiciona um arquivo de JS ao template.twig #}
+{% block scripts %}
+    {{ parent() }}
+{% endblock %}

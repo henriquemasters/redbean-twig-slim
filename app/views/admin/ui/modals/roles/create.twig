@@ -1,0 +1,35 @@
+<form id="formModal" name="formModal" method="post" action="{{ base_url() }}/admin/users/roles/save" class="form-horizontal" autocomplete="off">
+    <input name="_type" type="hidden" value="role">
+    <input name="id" type="hidden" value="{{ role.id }}">
+
+    <div class="modal-body">
+        <div class="form-role">
+            <label>Grupo</label>
+            <input type="text" name="name" value="{{ role.name }}" class="form-control" required="" placeholder="Informe o nome do Grupo">
+        </div>
+
+        <div class="form-role">
+            <label>Acessos</label>
+            <div class="col-md-12 p-2 checkbox-list">
+                {% set count = 0 %}
+                {% for route in allroutes %}
+                    {% set count = count + 1 %}
+                    <label class="w-100 text-xs p-2">
+                        <input type="hidden" name="ownPermissionList[{{ count }}][_type]" value="permission">
+                        <input type="hidden" name="ownPermissionList[{{ count }}][role_id]" value="{{ role.id }}">
+                        <input type="hidden" name="ownPermissionList[{{ count }}][method]" value="{{ route.method }}">
+                        <input type="hidden" name="ownPermissionList[{{ count }}][pattern]" value="{{ route.pattern }}">
+
+                        <input type="hidden" name="ownPermissionList[{{ count }}][status]" value="deny">
+                        <input type="checkbox" name="ownPermissionList[{{ count }}][status]" value="allow" {{ (route.checked == 'allow')? 'checked' : null }}> {{ route.method }}: {{ route.pattern }}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <button class="btn btn-sm btn-primary"><i class="fa fa-check-circle"></i> <span class="small">CONFIRMAR</span></button>
+        <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> <span class="small">CANCELAR</span></a>
+    </div>
+</form>

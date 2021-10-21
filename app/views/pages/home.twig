@@ -1,0 +1,25 @@
+{# Herda o Layout do Arquivo template.wig #}
+{% extends 'template.twig' %}
+
+{# Adiciona um arquivo de estilo CSS ao template.twig #}
+{% block styles %}
+    {{ parent() }}
+    {#<link rel="stylesheet" type="text/css" href="/path/to/custom_style.css" />#}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p>Esta é a área de conteúdo da HOME.</p>
+            </div>
+        </div>
+    </div>    
+{% endblock %}
+
+
+{# Adiciona um arquivo de JS ao template.twig #}
+{% block scripts %}
+    {{ parent() }}
+    {#<script src="/path/to/custom_script.js"></script>#} 
+{% endblock %}

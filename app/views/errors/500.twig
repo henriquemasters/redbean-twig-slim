@@ -1,0 +1,66 @@
+{# Herda o Layout do Arquivo template.wig #}
+{% extends 'template.twig' %}
+
+{# Adiciona um arquivo de estilo CSS ao template.twig #}
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+
+{# Corpo/Conteúdo do site #}
+{% block content %}
+    <section class="page-title" style="background-image: url('{{ base_url() }}/assets/imgs/slider/slide-5.jpg');">
+        <div class="container">
+            <div class="row">
+                <div class="col col-xs-12">
+                    <h2>500</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ base_url() }}">Home</a></li>
+                        <li>500</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="error-404-section section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col col-xs-12">
+                    <div class="content clearfix">
+                        <div class="error">
+                            <h2>404</h2>
+                        </div>
+                        <div class="error-message">
+                            <h3>Oops! Algo deu errado.</h3>
+                            <p>Vamos trabalhar para consertar isso imediatamente. Enquanto isso, você pode tentar voltar ao Início clicando no botão abaixo:</p>
+                            <a href="{{ base_url() }}" class="theme-btn-s2">Voltar ao Início</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="callout callout-danger mt-5 pt-5 pb-4">
+                        <h5 class="font-weight-bold text-uppercase text-danger">Erro na Aplicação</h5>
+                        <p>A aplicação não pôde executar devido ao seguinte erro:</p>
+
+                        <h6 class="font-weight-bold">Detalhes</h6>
+                        <pre style="font-size: .7rem; white-space: normal">
+                <b>Tipo de Erro:</b> Exceção<br>
+                <b>Mensagem:</b> {{ error_detail.message }}<br>
+                <b>Arquivo:</b> {{ error_detail.file }}<br>
+                <b>Linha:</b> {{ error_detail.line }}
+                        </pre>
+                        <hr>
+                        <pre style="font-size: .7rem">{{ error_detail.trace|trim(" ") }}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{# Adiciona um arquivo de JS ao template.twig #}
+{% block scripts %}
+    {{ parent() }}
+{% endblock %}

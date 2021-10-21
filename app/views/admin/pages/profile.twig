@@ -1,0 +1,323 @@
+{# Herda o Layout do Arquivo template.wig #}
+{% extends 'admin/template.twig' %}
+
+{# Adiciona um arquivo de estilo CSS ao template.twig #}
+{% block styles %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+{% endblock %}
+
+{# Corpo/Conteúdo do site #}
+{% block content %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6"><h1><i class="fas fa-edit"></i> {{ title }}</h1></div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right small">
+                        <li class="breadcrumb-item"><a href="{{ base_url() }}/admin/home">Início</a></li>
+                        <li class="breadcrumb-item active">{{ title }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xl-9 col-sm-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">{# #}</h3>
+                        <a href="javascript:;" onclick="doPrint('#info', 'Ficha de Cadastro - {{session.user_auth.name|u.truncate(16,' ',false)}}');" class="btn btn-primary btn-xs float-right"><i class="fa fa-print"></i> Imprimir</a>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col-sm-2 text-center">
+                                <img src="{{ ((session.user_auth.photo) ? : base_url() ~ '/assets/admin/images/user-avatar.png') }}" alt="{{ session.user_auth.name|u.truncate(16,' ',false) }}" class="img-fluid text-center img-circle">
+                                <p class="mt-2"><a href="{{ base_url() }}/admin/profile/change-photo" rel="modal" title="Meu Perfil: Trocar Foto" class="btn btn-sm btn-primary text-white"><i class="fa fa-camera"></i></a></p>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="card-body">
+                                    <h1 class="font-weight-bold">{{ session.user_auth.name|u.truncate(16,' ',false) }}</h1>
+                                    <div class="card-text">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <ul class="list-unstyled">
+                                                    <li><b>Idade:</b> <span class="small">{{ profile.bornat ? ((date('now').diff(date(profile.bornat)).format('%y Ano(s)')) ~ ('(' ~ profile.bornat|date('d/m/Y') ~ ')')) : null|default('Não Informado') }}</span></li>
+                                                    <li><b>Função:</b> <span class="small">{{ session.user_auth.role.name }}</span></li>
+                                                    <li><b>Ender.:</b> <span class="small">{{ (profile.address ~ ((profile.number) ? ', ' ~ profile.number : null) ~ ((profile.district) ? ' - ' ~ profile.district : null) ~ ((profile.city) ? ', ' ~ profile.city : null) ~ ((profile.state) ? ' - ' ~ profile.state : null))|default('Não Informado') }}</span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <ul class="list-unstyled">
+                                                    <li><b>Tel(s).:</b> <span class="small">{{ profile.phone1|default('Não Informado') }}</span> <span class="small">{{ profile.phone2 ? '| ' ~ profile.phone2 : null }}</span></li>
+                                                    <li><b>E-mail:</b> <a href="{{ profile.email ? ('mailto:'~profile.email) : 'javascript:;' }}" class="small">{{ profile.email|default('Não Informado') }}</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card profile">
+                    <div class="card-header">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" title="Informações" href="#info" data-toggle="tab"><i class="fa fa-info-circle"></i> <span class="d-none d-md-inline-block">Informações</span></a></li>
+                            <li class="nav-item"><a class="nav-link" title="Editar Informações" href="#edit" data-toggle="tab"><i class="fa fa-edit"></i> <span class="d-none d-md-inline-block">Editar</span></a></li>
+                            <li class="nav-item"><a class="nav-link" title="Trocar Senha" href="#change-password" data-toggle="tab"><i class="fa fa-lock"></i> <span class="d-none d-md-inline-block">Trocar Senha</span></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="tab-content">
+                            {% include 'admin/ui/tabs/profile/info.twig' %}
+                            {% include 'admin/ui/tabs/profile/edit.twig' %}
+                            {% include 'admin/ui/tabs/profile/change-password.twig' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
+
+{# Adiciona um arquivo de JS ao template.twig #}
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ base_url() }}/assets/admin/plugins/moment/moment-with-locales.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="{{ base_url() }}/assets/js/lib/jquery.maskedinput.js"></script>
+    <script src="{{ base_url() }}/assets/admin/js/printThis.js"></script>
+    <script src="{{ base_url() }}/assets/admin/js/modalProfilePhoto.js"></script>
+
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/jszip/jszip.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script src="{{ base_url() }}/assets/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/jquery-validation/additional-methods.min.js"></script>
+    <script src="{{ base_url() }}/assets/js/lib/md5-min.js"></script>
+    <script src="{{ base_url() }}/assets/js/lib/hideShowPassword.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            doDatePicker('#bornat');
+
+            dophoneMask();
+            $('.cep').mask("99.999-999");
+
+            tabNavControl('profile');
+
+            getAddressByZipcode();
+
+            doModalProfilePhoto();
+
+            submitFormUser();
+        });
+
+        /**
+         * 
+         * @param {type} el
+         * @param {type} title
+         * @returns {undefined}
+         */
+        function doPrint(el, title) {
+            $(el).printThis({
+                importCSS: false,
+                loadCSS: [
+                    '//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
+                ],
+                header: '<h2 class="mb-5 text-center text-uppercase font-weight-bold">' + title + '</h2>',
+                pageTitle: title
+            });
+        }
+
+        /**
+         * 
+         * @param {type} el
+         * @returns {undefined}
+         */
+        function doDatePicker(el) {
+            $(el).datetimepicker({
+                //  defaultDate: new Date(),
+                format: 'L',
+                locale: 'pt-br',
+                mask: true
+            });
+        }
+
+        /**
+         * 
+         * @returns {undefined}
+         */
+        function dophoneMask() {
+            $('.phone').focusout(function () {
+                var phone, element;
+                element = $(this);
+                element.unmask();
+                phone = element.val().replace(/\D/g, '');
+                if (phone.length > 10) {
+                    element.mask("(99) 99999-999?9");
+                } else {
+                    element.mask("(99) 9999-9999?9");
+                }
+            }).trigger('focusout');
+        }
+
+        /**
+         * 
+         * @param {type} tabName
+         * @returns {undefined}
+         */
+        function tabNavControl(tabName) {
+            $('.profile').find('[href="' + localStorage.getItem(tabName + 'SlctdTab') + '"]').tab('show');
+            $('.profile .nav li a').on('click', function () {
+                localStorage.setItem(tabName + 'SlctdTab', $(this).attr('href'));
+            });
+        }
+
+        /**
+         * 
+         * @returns {undefined}
+         */
+        function getAddressByZipcode() {
+            $('input[name*="zipcode"]').on('blur', function () {
+                var cep = $(this).val();
+                var url = 'https://viacep.com.br/ws/' + cep.replace(/\.|\-/g, '') + '/json/';
+
+                $('input[name*="district"]').attr('readonly', true);
+                $('input[name*="address"]').attr('readonly', true);
+                $('input[name*="number"]').attr('readonly', true);
+                $('input[name*="city"]').attr('readonly', true);
+                $('select[name*="state"]').attr('readonly', true);
+
+                $.get(url, function (r) {
+                    $('input[name*="district"]').val(r.bairro).attr('readonly', false);
+                    $('input[name*="address"]').val(r.logradouro).attr('readonly', false);
+                    $('input[name*="number"]').attr('readonly', false);
+                    $('input[name*="city"]').val(r.localidade).attr('readonly', false);
+                    $('select[name*="state"]').val(r.uf).change().attr('readonly', false);
+                });
+            });
+        }
+
+        /**
+         * 
+         * @returns {undefined}
+         */
+        function submitFormUser() {
+            $('#FormUser').validate({
+                //  debug: true,
+                errorElement: "span",
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                rules: {
+                    password: "required",
+                    confirmpassword: {
+                        equalTo: "#password"
+                    }
+                },
+                messages: {
+                    login: 'Este campo é obrigatório.',
+                    pass: 'Obrigatório informar a senha.',
+                    confirmpassword: 'A senhas não conferem. Por favor tente novamente.'
+                },
+                submitHandler: function (form) {
+                    if ($('#show_hide_password input').attr("type") == "text") {
+                        $('#show_hide_password input').attr('type', 'password');
+                        $('#show_hide_password i').addClass("fa-eye-slash");
+                        $('#show_hide_password i').removeClass("fa-eye");
+                    }
+                    $('#password').val(hex_md5($('#password').val()));
+                    $('#confirmpassword').val(hex_md5($('#confirmpassword').val()));
+                    form.submit();
+                }
+            });
+        }
+
+        /**
+         * 
+         * @param {type} el
+         * @returns {undefined}
+         */
+        function doDataTable(el) {
+            $("." + el).DataTable({
+                ordering: false,
+                iDisplayLength: 50,
+                responsive: true,
+                lengthChange: true,
+                autoWidth: false,
+                "buttons": [
+                    {
+                        className: 'btn btn-default',
+                        text: '<div class="small"><i class="fa fa-file-excel"></i> <span class="hidden-xs">Gerar </span>Excel</div>',
+                        extend: 'excelHtml5',
+                        exportOptions: {columns: 'th:not(:last-child)'}
+                    },
+                    {
+                        className: 'btn btn-flat btn-default',
+                        text: '<div class="small"><i class="fa fa-file-pdf"></i> <span class="hidden-xs">Gerar </span>PDF</div>',
+                        extend: 'pdfHtml5',
+                        exportOptions: {columns: 'th:not(:last-child)'},
+                        customize: function (doc) {
+                            doc.defaultStyle.fontSize = 8;
+                        }
+                    },
+                    {
+                        className: 'btn btn-default',
+                        text: '<div class="small"><i class="fa fa-print"></i> Imprimir</div>',
+                        extend: 'print',
+                        exportOptions: {columns: 'th:not(:last-child)'}
+                    }
+                ],
+                sDom: "<'row'<'col-12'f>r>t<'row'<'col-lg-12'i><'col-lg-12 center'p>>",
+                oLanguage: {
+                    sProcessing: "Processando...",
+                    sLengthMenu: "Mostrar _MENU_ itens",
+                    sZeroRecords: "Não foram encontrados resultados",
+                    sInfo: "Exibindo _START_ a _END_ de _TOTAL_ itens",
+                    sInfoEmpty: "Mostrando de 0 até 0 de 0 itens",
+                    sInfoFiltered: "(Total: _MAX_ registros)",
+                    sInfoPostFix: "",
+                    sSearch: "Busca:",
+                    sUrl: "",
+                    oPaginate: {
+                        sFirst: "Primeiro",
+                        sPrevious: "Anterior",
+                        sNext: "Próximo",
+                        sLast: "Último"
+                    }
+                },
+                fnDrawCallback: function () {
+                    // Carrega depois que renderiza Datatable
+                    addFriend($(this));
+                }
+            }).buttons().container().appendTo('#' + el + ' .col-md-6:eq(0)');
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,168 @@
+{# Herda o Layout do Arquivo template.wig #}
+{% extends 'admin/template.twig' %}
+
+{# Adiciona um arquivo de estilo CSS ao template.twig #}
+{% block styles %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+{% endblock %}
+
+{# Corpo/Conteúdo do site #}
+{% block content %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6"><h1><i class="fas fa-users"></i> {{ title }}</h1></div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right small">
+                        <li class="breadcrumb-item"><a href="javascript:;">Usuários</a></li>
+                        <li class="breadcrumb-item active">{{ title }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title"><b>Lista de Usuários:</b></h3>
+            </div>
+
+            {% if isAllow('/admin/users/create') %}
+                <div class="col mt-2"><a href="{{ base_url() }}/admin/users/create" rel="modal" title="ADICIONAR" class="btn btn-sm btn-primary text-white float-right"><i class="fa fa-plus-circle"></i> <span class="d-none d-sm-inline small">Adicionar</span></a></div>
+            {% endif %}
+
+            <div class="card-body">
+                <table class="table table-bordered table-striped table-condensed list">
+                    <thead>
+                        <tr class="small">
+                            <th class="all"><b>#</b></th>
+                            <th class="all"><b>Nome</b></th>
+                            <th class="all text-center"><b>Últ. Login</b></th>
+                            <th class="desktop text-center"><b>Grupo</b></th>
+
+                            {% if (isAllow('/admin/users/update/{id}') or isAllow('/admin/users/delete/{id}')) %}
+                                <th class="text-center"><b>Ações</b></th>
+                                {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set count = 0 %}
+                        {% for user in users %}
+                            {% if user.__get('role').name != 'Desenvolvedor' %}
+                                {% set count = count + 1 %}
+                                <tr class="small">
+                                    <td>{{ count }}</td>
+                                    <td>
+                                        <b>{{ user.name|upper }}</b><br>
+                                        <small><b>EMAIL/LOGIN:</b> {{ user.login }}</small>
+                                    </td>
+                                    <td class="text-center">{{ user.lastlogin|default('-') }}</td>
+                                    <td class="text-center">{{ user.__get('role').name ? : 'Não Informado' }}</td>
+
+                                    {% if (isAllow('/admin/users/update/{id}') or isAllow('/admin/users/delete/{id}')) %}
+                                        <td class="text-center">
+                                            {% if isAllow('/admin/users/update/{id}') %}
+                                                <a href="{{ base_url() }}/admin/users/update/{{ user.id }}" rel="modal" title="EDITAR REGISTRO" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> <span class="d-none d-sm-inline small">EDITAR</span></a>
+                                            {% endif %}
+                                            {% if isAllow('/admin/users/delete/{id}') %}
+                                                <a href="{{ base_url() }}/admin/users/delete/{{ user.id }}" rel="modal" title="DELETAR REGISTRO" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> <span class="d-none d-sm-inline small">DELETAR</span></a>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{# Adiciona um arquivo de JS ao template.twig #}
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/jszip/jszip.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script src="{{ base_url() }}/assets/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/jquery-validation/additional-methods.min.js"></script>
+
+    <script src="{{ base_url() }}/assets/js/lib/md5-min.js"></script>
+    <script src="{{ base_url() }}/assets/js/lib/hideShowPassword.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/js/modalUser.js"></script>
+    <script>
+        $(document).ready(function () {
+            doDataTable('list');
+        });
+
+        function doDataTable(el) {
+            $("." + el).DataTable({
+                ordering: false,
+                iDisplayLength: 50,
+                responsive: true,
+                lengthChange: true,
+                autoWidth: false,
+                "buttons": [
+                    {
+                        className: 'btn btn-default',
+                        text: '<div class="small"><i class="fa fa-file-excel"></i> <span class="hidden-xs">Gerar </span>Excel</div>',
+                        extend: 'excelHtml5',
+                        exportOptions: {columns: 'th:not(:last-child)'}
+                    },
+                    {
+                        className: 'btn btn-flat btn-default',
+                        text: '<div class="small"><i class="fa fa-file-pdf"></i> <span class="hidden-xs">Gerar </span>PDF</div>',
+                        extend: 'pdfHtml5',
+                        exportOptions: {columns: 'th:not(:last-child)'},
+                        customize: function (doc) {
+                            doc.defaultStyle.fontSize = 8;
+                        }
+                    },
+                    {
+                        className: 'btn btn-default',
+                        text: '<div class="small"><i class="fa fa-print"></i> Imprimir</div>',
+                        extend: 'print',
+                        exportOptions: {columns: 'th:not(:last-child)'}
+                    }
+                ],
+                sDom: "<'row'<'col-lg-12 mb-5'<'col-lg-6'B>>> <'row'<'col-lg-6'l><'col-lg-6'f>r>t<'row'<'col-lg-12'i><'col-lg-12 center'p>>",
+                oLanguage: {
+                    sProcessing: "Processando...",
+                    sLengthMenu: "Mostrar _MENU_ itens",
+                    sZeroRecords: "Não foram encontrados resultados",
+                    sInfo: "Exibindo _START_ a _END_ de _TOTAL_ itens",
+                    sInfoEmpty: "Mostrando de 0 até 0 de 0 itens",
+                    sInfoFiltered: "(Total: _MAX_ registros)",
+                    sInfoPostFix: "",
+                    sSearch: "Busca:",
+                    sUrl: "",
+                    oPaginate: {
+                        sFirst: "Primeiro",
+                        sPrevious: "Anterior",
+                        sNext: "Próximo",
+                        sLast: "Último"
+                    }
+                },
+                fnDrawCallback: function () {
+                    // Carrega depois que renderiza Datatable
+                    doModalUser();
+                }
+            }).buttons().container().appendTo('#' + el + ' .col-md-6:eq(0)');
+        }
+    </script>
+{% endblock %}

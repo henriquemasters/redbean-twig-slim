@@ -1,0 +1,17 @@
+<form name="formModal" method="post" action="{{ base_url() }}/admin/users/roles/delete" class="form-horizontal">
+    <input name="id" type="hidden" value="{{ data.id }}">
+    <input name="_METHOD" type="hidden" value="DELETE">
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Tem certeza que deseja<br class="d-block d-sm-none"> excluir este registro?:<br></p>
+                <h6 class="font-weight-bold small">{{ data.name|upper }}</h6>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <button class="btn btn-sm btn-danger"><i class="fa fa-check-circle"></i> <span class="small">CONFIRMAR</span></button>
+        <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> <span class="small">CANCELAR</span></a>
+    </div>
+</form>

@@ -1,0 +1,12 @@
+<form name="formModal" method="post" action="{{ base_url() }}/admin/profile/save-photo" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+    <input name="userId" type="hidden" value="{{ user.id }}">
+    <div class="modal-body small">
+
+        <input type="file" name="photo" accept="image/*;capture=camera" required >
+
+    </div>
+    <div class="modal-footer justify-content-between">
+        <button class="btn btn-sm btn-primary"><i class="fa fa-check-circle"></i> <span class="small">CONFIRMAR</span></button>
+        <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> <span class="small">CANCELAR</span></a>
+    </div>
+</form>

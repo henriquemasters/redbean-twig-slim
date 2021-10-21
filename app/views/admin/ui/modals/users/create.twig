@@ -1,0 +1,55 @@
+<form name="formModal" method="post" action="{{ base_url() }}/admin/users/save" class="form-horizontal" autocomplete="off">
+    <input name="_type" type="hidden" value="user">
+    <input name="id" type="hidden" value="{{ user.id }}">
+
+    <div class="modal-body small">
+        <div class="form-group">
+            <label>Nome do Usuário</label>
+            <input type="text" name="name" value="{{ user.name }}" class="form-control" required="" placeholder="">
+        </div>
+        <div class="form-group">
+            <label>Grupo</label>
+            <select name="role_id" class="form-control" required="">
+                <option value="">-- Selecione o Grupo --</option>
+                {% for role in roles %}
+                    {% if ((role.name != 'Desenvolvedor') or (session.user_auth.role.name == 'Desenvolvedor')) %}
+                        <option value="{{ role.id }}" {{ (role.id == user.role_id) ? 'selected' : '' }}>{{ role.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Email/Login:</label>
+            <input type="email" name="login" value="{{ user.login }}" class="form-control" required="" placeholder="">
+        </div>
+
+        <div id="show_hide_password">
+            <div class="form-group">
+                <label>Informe a senha:</label>
+                <div class="input-group mb-3">
+                    <input type="password" id="password" name="pass" class="form-control" placeholder="Senha" required="">
+                    <div class="input-group-append toggle-password">
+                        <div class="input-group-text">
+                            <a href=""><i class="fa fa-eye-slash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Confirme a senha:</label>
+                <div class="input-group mb-3">
+                    <input type="password" id="confirmpassword" name="confirmpassword" class="form-control" placeholder="Senha" required="">
+                    <div class="input-group-append toggle-password">
+                        <div class="input-group-text">
+                            <a href=""><i class="fa fa-eye-slash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <button class="btn btn-sm btn-primary"><i class="fa fa-check-circle"></i> <span class="small">CONFIRMAR</span></button>
+        <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> <span class="small">CANCELAR</span></a>
+    </div>
+</form>
