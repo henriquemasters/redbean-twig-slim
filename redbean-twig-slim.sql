@@ -65,6 +65,33 @@ TRUNCATE TABLE `user`;
 INSERT INTO `user` (`id`, `name`, `role_id`, `login`, `pass`, `lastlogin`, `photo`) VALUES
 (1, 'User Admin', 1, 'admin@admin', '202cb962ac59075b964b07152d234b70', '2021-10-21 14:46:23', NULL);
 
+DROP TABLE IF EXISTS `profile`;
+CREATE TABLE `profile` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
+  `fullname` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `bornat` date DEFAULT NULL,
+  `gender` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `graduation` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `maritalstatus` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `memberstatus` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `phone1` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `phone2` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `zipcode` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `district` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `address` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `number` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `city` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `state` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `annotation` text COLLATE utf8mb4_unicode_520_ci,
+  `updateat` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+TRUNCATE TABLE `profile`;
+INSERT INTO `profile` (`id`, `user_id`, `fullname`, `memberstatus`, `email`, `updateat`) VALUES
+(1, 1, 'User Admin', 'Ativo', 'admin@admin', '2021-10-21 14:46:23');
+
 
 ALTER TABLE `permission`
   ADD PRIMARY KEY (`id`),
@@ -77,6 +104,10 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD KEY `index_foreignkey_user_role` (`role_id`);
 
+ALTER TABLE `profile`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `index_foreignkey_profile_user` (`user_id`);
+
 
 ALTER TABLE `permission`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1006;
@@ -87,12 +118,18 @@ ALTER TABLE `role`
 ALTER TABLE `user`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
+ALTER TABLE `profile`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 
 ALTER TABLE `permission`
   ADD CONSTRAINT `c_fk_permission_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `user`
   ADD CONSTRAINT `c_fk_user_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+ALTER TABLE `profile`
+  ADD CONSTRAINT `c_fk_profile_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 

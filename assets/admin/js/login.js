@@ -1,5 +1,7 @@
 $(document).ready(function () {
-
+    $('#FormUser').on('submit', function () {
+        submitFormLogin();
+    });
 });
 
 function submitFormLogin() {
@@ -8,6 +10,11 @@ function submitFormLogin() {
         $('#show_hide_password i').addClass("fa-eye-slash");
         $('#show_hide_password i').removeClass("fa-eye");
     }
-    if ($('input[type="password"]').val())
-        $('input[type="password"]').val(hex_md5($('input[type="password"]').val()));
+
+    var password = $('input[name="pass"]');
+    var value = password.val();
+
+    if (value && !/^[a-f0-9]{32}$/i.test(value)) {
+        password.val(hex_md5(value));
+    }
 }
