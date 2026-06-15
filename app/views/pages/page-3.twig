@@ -1,25 +1,13 @@
-{# Herda o Layout do Arquivo template.wig #}
 {% extends 'template.twig' %}
 
-{# Adiciona um arquivo de estilo CSS ao template.twig #}
-{% block styles %}
-    {{ parent() }}
-    {#<link rel="stylesheet" type="text/css" href="/path/to/custom_style.css" />#}
-{% endblock %}
-
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <p>Esta é a área de conteúdo da PÁGINA 3.</p>
-            </div>
-        </div>
-    </div>    
-{% endblock %}
-
-
-{# Adiciona um arquivo de JS ao template.twig #}
-{% block scripts %}
-    {{ parent() }}
-    {#<script src="/path/to/custom_script.js"></script>#} 
+    <main class="showcase-shell slim-page">
+        <section class="feature-page reveal">
+            <span class="eyebrow">Recurso demonstrado</span>
+            <h1>Area administrativa com autenticacao e ACL por rota.</h1>
+            <p>O grupo <code>/admin</code> combina middleware de sessao e ACL. As permissoes sao lidas do banco e aplicadas tambem nas views com o helper Twig <code>isAllow()</code>.</p>
+            <div class="code-card">/admin/* -> session middleware -> ACL middleware -> controller</div>
+            <a class="btn-showcase btn-primary-showcase" href="{{ base_url('') }}/login">Abrir login</a>
+        </section>
+    </main>
 {% endblock %}

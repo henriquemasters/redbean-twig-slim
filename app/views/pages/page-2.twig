@@ -1,25 +1,13 @@
-{# Herda o Layout do Arquivo template.wig #}
 {% extends 'template.twig' %}
 
-{# Adiciona um arquivo de estilo CSS ao template.twig #}
-{% block styles %}
-    {{ parent() }}
-    {#<link rel="stylesheet" type="text/css" href="/path/to/custom_style.css" />#}
-{% endblock %}
-
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <p>Esta é a área de conteúdo da PÁGINA 2.</p>
-            </div>
-        </div>
-    </div>    
-{% endblock %}
-
-
-{# Adiciona um arquivo de JS ao template.twig #}
-{% block scripts %}
-    {{ parent() }}
-    {#<script src="/path/to/custom_script.js"></script>#} 
+    <main class="showcase-shell slim-page">
+        <section class="feature-page reveal">
+            <span class="eyebrow">Recurso demonstrado</span>
+            <h1>Persistencia pragmatica para CRUDs pequenos.</h1>
+            <p>Os models encapsulam chamadas RedBeanPHP para consultas, atualizacoes e stores. Isso reduz boilerplate em MVPs e mantem a persistencia fora dos controllers.</p>
+            <div class="code-card">User::all() | Role::save($data) | Permission::getCell(...)</div>
+            <a class="text-link" href="{{ base_url('') }}">Voltar para a vitrine</a>
+        </section>
+    </main>
 {% endblock %}
