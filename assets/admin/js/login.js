@@ -11,10 +11,5 @@ function submitFormLogin() {
         $('#show_hide_password i').removeClass("fa-eye");
     }
 
-    var password = $('input[name="pass"]');
-    var value = password.val();
-
-    if (value && !/^[a-f0-9]{32}$/i.test(value)) {
-        password.val(hex_md5(value));
-    }
+    return true;
 }

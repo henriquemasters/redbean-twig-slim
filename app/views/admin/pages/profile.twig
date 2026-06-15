@@ -119,7 +119,6 @@
 
     <script src="{{ base_url() }}/assets/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="{{ base_url() }}/assets/admin/plugins/jquery-validation/additional-methods.min.js"></script>
-    <script src="{{ base_url() }}/assets/js/lib/md5-min.js"></script>
     <script src="{{ base_url() }}/assets/js/lib/hideShowPassword.min.js"></script>
 
     <script>
@@ -253,8 +252,6 @@
                         $('#show_hide_password i').addClass("fa-eye-slash");
                         $('#show_hide_password i').removeClass("fa-eye");
                     }
-                    $('#password').val(hex_md5($('#password').val()));
-                    $('#confirmpassword').val(hex_md5($('#confirmpassword').val()));
                     form.submit();
                 }
             });
