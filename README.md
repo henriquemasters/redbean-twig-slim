@@ -1,28 +1,28 @@
 # RedBean Twig Slim
 
-Microframework PHP autoral para criar MVPs, POCs e pequenas aplicacoes administrativas com rapidez, mantendo uma estrutura MVC clara e facil de explicar em portfolio tecnico.
+Microframework PHP autoral para criar MVPs, POCs e pequenas aplicações administrativas com rapidez, mantendo uma estrutura MVC clara e fácil de explicar em portfólio técnico.
 
-A proposta do projeto e simples: entregar uma base funcional com roteamento, templates, persistencia, autenticacao, painel administrativo, upload de perfil e ACL por rota sem exigir a complexidade de um framework full-stack.
+A proposta do projeto e simples: entregar uma base funcional com roteamento, templates, persistência, autenticação, painel administrativo, upload de perfil e ACL por rota sem exigir a complexidade de um framework full-stack.
 
 ## Por que este projeto existe
 
-MVPs e POCs normalmente precisam responder rapido a tres perguntas:
+MVPs e POCs normalmente precisam responder rápido a três perguntas:
 
-- A ideia funciona para o usuario?
-- O fluxo administrativo resolve a operacao minima?
-- A base tecnica permite evoluir sem virar um prototipo descartavel?
+- A ideia funciona para o usuário?
+- O fluxo administrativo resolve a operação minima?
+- A base técnica permite evoluir sem virar um prototipo descartável?
 
-Este projeto foi criado para esse tipo de cenario. Ele combina bibliotecas maduras do ecossistema PHP em uma estrutura pequena, direta e customizavel.
+Este projeto foi criado para esse tipo de cenário. Ele combina bibliotecas maduras do ecossistema PHP em uma estrutura pequena, direta e customizável.
 
 ## O que ele demonstra
 
-- **Arquitetura MVC objetiva:** controllers orquestram request/response, models encapsulam RedBeanPHP e Twig cuida da apresentacao.
+- **Arquitetura MVC objetiva:** controllers orquestram request/response, models encapsulam RedBeanPHP e Twig cuida da apresentação.
 - **Roteamento Slim 3:** rotas declarativas em `app/routes.php`, grupos protegidos e middleware por contexto.
-- **Templates Twig:** heranca de layout, helpers, blocos de estilos/scripts e paginas publicas customizaveis.
-- **Persistencia com RedBeanPHP:** CRUD rapido para usuarios, perfis, grupos e permissoes.
-- **Painel administrativo:** login, dashboard, cadastro de usuarios, grupos, perfil e upload de foto.
-- **ACL por rota:** permissoes persistidas no banco e avaliadas no middleware antes de acessar `/admin/*`.
-- **Base para portfolio:** landing publica preparada para apresentar o projeto como case tecnico.
+- **Templates Twig:** herança de layout, helpers, blocos de estilos/scripts e paginas publicas customizáveis.
+- **Persistência com RedBeanPHP:** CRUD rápido para usuários, perfis, grupos e permissões.
+- **Painel administrativo:** login, dashboard, cadastro de usuários, grupos, perfil e upload de foto.
+- **ACL por rota:** permissões persistidas no banco e avaliadas no middleware antes de acessar `/admin/*`.
+- **Base para portfólio:** landing pública preparada para apresentar o projeto como case técnico.
 
 ## Stack principal
 
@@ -40,47 +40,47 @@ Este projeto foi criado para esse tipo de cenario. Ele combina bibliotecas madur
 
 ```text
 app/
-  routes.php              # Mapa de rotas publicas, autenticacao e admin
+  routes.php              # Mapa de rotas públicas, autenticação e admin
   dependencies.php        # Container Slim: Twig, logger, handlers, controllers
-  middleware.php          # Middleware de ACL para area administrativa
-  database.php            # Bootstrap da conexao RedBeanPHP
+  middleware.php          # Middleware de ACL para área administrativa
+  database.php            # Bootstrap da conexão RedBeanPHP
   src/
-    controllers/          # Actions PSR-7 da aplicacao
-    models/               # Helpers de persistencia com RedBeanPHP
-  views/                  # Templates Twig publicos e administrativos
+    controllers/          # Actions PSR-7 da aplicação
+    models/               # Helpers de persistência com RedBeanPHP
+  views/                  # Templates Twig públicos e administrativos
 assets/
-  css/site.css            # Identidade visual da landing publica
-  admin/                  # Tema e plugins da area administrativa
+  css/site.css            # Identidade visual da landing pública
+  admin/                  # Tema e plugins da área administrativa
 redbean-twig-slim.sql     # Estrutura/dados iniciais do banco
 index.php                 # Front controller Slim
 ```
 
-## Fluxo tecnico
+## Fluxo técnico
 
-1. `index.php` carrega Composer, inicia sessao, configura Slim e registra dependencias, middleware e rotas.
+1. `index.php` carrega Composer, inicia sessão, configura Slim e registra dependências, middleware e rotas.
 2. `app/routes.php` conecta URLs a actions de controllers.
 3. Controllers recebem `Request`, `Response` e argumentos da rota.
 4. Models usam RedBeanPHP para consultar e persistir dados.
 5. Twig renderiza a resposta HTML.
-6. Rotas `/admin/*` passam por autenticacao de sessao e ACL por rota.
+6. Rotas `/admin/*` passam por autenticação de sessão e ACL por rota.
 
-## Instalacao local
+## Instalação local
 
 Requisitos:
 
-- PHP compativel com as dependencias do `composer.json`
+- PHP compatível com as dependências do `composer.json`
 - Composer
 - MySQL ou MariaDB
 - Servidor local como Apache/WAMP, Laragon ou PHP built-in server
 
-Clone o repositorio:
+Clone o repositório:
 
 ```sh
 git clone https://github.com/henriquemasters/redbean-twig-slim.git
 cd redbean-twig-slim
 ```
 
-Instale as dependencias:
+Instale as dependências:
 
 ```sh
 composer install
@@ -92,19 +92,19 @@ Crie o banco e importe o SQL:
 mysql -u root -p myapp < redbean-twig-slim.sql
 ```
 
-Ajuste a conexao se necessario em `app/database.php`:
+Ajuste a conexão se necessário em `app/database.php`:
 
 ```php
 R::setup('mysql:host=localhost; dbname=myapp', 'root', '123');
 ```
 
-Abra o projeto pelo servidor web apontando para a raiz do repositorio.
+Abra o projeto pelo servidor web apontando para a raiz do repositório.
 
-## Paginas de demonstracao
+## Paginas de demonstração
 
 - `/` apresenta a landing do case.
-- `/page-1` demonstra a ligacao entre rota, controller e Twig.
-- `/page-2` explica a camada de models e persistencia.
+- `/page-1` demonstra a ligação entre rota, controller e Twig.
+- `/page-2` explica a camada de models e persistência.
 - `/page-3` apresenta a area administrativa e ACL.
 - `/login` acessa o fluxo autenticado.
 
@@ -114,32 +114,38 @@ Abra o projeto pelo servidor web apontando para a raiz do repositorio.
 - Criar novos models em `app/src/models`.
 - Registrar rotas em `app/routes.php`.
 - Adicionar templates Twig em `app/views`.
-- Configurar novas permissoes pelo painel administrativo.
+- Configurar novas permissões pelo painel administrativo.
 - Customizar a landing em `app/views/pages` e `assets/css/site.css`.
 
-## Observacoes de seguranca
+## Observações de segurança
 
-Este projeto nasceu como base para MVPs e POCs. Antes de usar em producao, revise obrigatoriamente:
+Este projeto nasceu como base para MVPs e POCs. Antes de usar em produção, revise obrigatoriamente:
 
-- Hash de senhas e politica de autenticacao.
-- Variaveis de ambiente para credenciais de banco.
-- `displayErrorDetails` em producao.
-- Validacao server-side de formularios.
-- CSRF nos formularios administrativos.
-- Permissoes de escrita no diretorio `uploads`.
+- Hash de senhas e política de autenticação.
+- Variáveis de ambiente para credenciais de banco.
+- `displayErrorDetails` em produção.
+- Validação server-side de formulários.
+- CSRF nos formulários administrativos.
+- Permissões de escrita no diretório `uploads`.
 
 ## Como apresentar este case
 
-Este repositorio demonstra capacidade de integrar bibliotecas PHP, estruturar uma aplicacao MVC, criar uma area administrativa funcional, aplicar controle de acesso por rota e entregar uma interface publica com narrativa de produto.
+Este repositório demonstra capacidade de integrar bibliotecas PHP, estruturar uma aplicação MVC, criar uma area administrativa funcional, aplicar controle de acesso por rota e entregar uma interface publica com narrativa de produto.
 
-Ele e especialmente adequado para mostrar experiencia em:
+Ele e especialmente adequado para mostrar experiência em:
 
-- Desenvolvimento PHP pragmatica.
-- Organizacao de projetos pequenos e medios.
-- Integracao de dependencias via Composer.
-- Backoffice para validacao de negocios.
-- Evolucao de legado e documentacao de codigo existente.
+- Desenvolvimento PHP pragmática.
+- Organização de projetos pequenos e medios.
+- Integracão de dependências via Composer.
+- Backoffice para validação de negócios.
+- Evolução de legado e documentação de código existente.
 
-## Licenca
+## Licença e autoria
 
-MIT
+Este projeto e distribuído sob a licença GNU General Public License v3 or later.
+
+Você pode usar, estudar, modificar e redistribuir este tema, inclusive em forks, desde que mantenha os avisos de copyright, a licença original e a atribuição ao autor original.
+
+Autor original: Henrique Mariano dos Santos Silva.
+
+Este software e fornecido sem garantia de funcionamento, suporte ou adequação a qualquer finalidade específica. Veja `LICENSE` para os termos completos.
