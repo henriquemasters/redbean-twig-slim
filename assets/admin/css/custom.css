@@ -34,6 +34,20 @@ a:visited {
 .left-wraper img {
     margin-top: 30%;
 }
+.login-brand {
+    display: inline-block;
+    margin-top: 30%;
+    color: #d81b60;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+.login-brand:hover,
+.login-brand:active,
+.login-brand:visited {
+    color: #d81b60;
+    text-decoration: none;
+}
 .left-wraper h1 {
     margin-top: 5%;
     letter-spacing: -1px;
@@ -144,7 +158,8 @@ b {
         background-position: 100% bottom;
         height: auto;
     }
-    .left-wraper img {
+    .left-wraper img,
+    .login-brand {
         margin-top: 5%; 
     }
     .left-wraper, .right-wraper {

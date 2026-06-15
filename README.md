@@ -108,6 +108,15 @@ Abra o projeto pelo servidor web apontando para a raiz do repositório.
 - `/page-3` apresenta a area administrativa e ACL.
 - `/login` acessa o fluxo autenticado.
 
+## Acesso inicial ao admin
+
+Depois de importar o arquivo `redbean-twig-slim.sql`, acesse `/login` com:
+
+- Login: `admin@admin`
+- Senha: `123`
+
+O formulário aplica MD5 no navegador antes de enviar a senha, por compatibilidade com o seed legado do banco. Antes de usar este projeto em produção, substitua esse fluxo por hash seguro no servidor, como `password_hash()` e `password_verify()`.
+
 ## Pontos de extensao
 
 - Criar novos controllers em `app/src/controllers`.

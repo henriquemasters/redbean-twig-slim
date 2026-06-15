@@ -19,24 +19,24 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6 left-wraper text-center">
-                    <a href="{{ base_url() }}" title=""><img src="{{ base_url() }}/assets/imgs/logo-site.png" alt="" /></a>
+                    <a href="{{ base_url() }}" class="login-brand" title="RedBean Twig Slim">RedBean Twig Slim</a>
                     <h1>Seja bem-vindo!</h1>
                 </div>
                 <div class="col-md-6 right-wraper">
 
                     <div class="card-body login-card-body">
-                        <h3 class="login-box-msg text-uppercase">Área de Membro</h3>
+                        <h3 class="login-box-msg text-uppercase">Área Restrita</h3>
 
                         <form id="FormUser" action="{{ base_url() }}/auth" class="form-horizontal" method="post" autocomplete="off">
                             <div class="form-group">
-                                <input type="email" name="login" class="form-control form-control-lg" placeholder="Email/Login" required>
+                                <input type="text" name="login" class="form-control form-control-lg" placeholder="Login ou e-mail" autocomplete="username" required>
                             </div>
                             <!--<div class="form-group">
                                 <input type="password" name="pass" class="form-control form-control-lg" placeholder="Senha">
                             </div>-->
 
                             <div id="show_hide_password" class="input-group mb-3">
-                                <input type="password" name="pass" class="form-control form-control-lg" placeholder="Senha" required>
+                                <input type="password" name="pass" class="form-control form-control-lg" placeholder="Senha" autocomplete="current-password" required>
                                 <div class="input-group-append toggle-password">
                                     <div class="input-group-text">
                                         <a href=""><i class="fa fa-eye-slash"></i></a>
@@ -54,10 +54,16 @@
                                 <div class="col-4">
                                 -->
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-lg btn-primary btn-block" onclick="submitFormLogin();">Entrar</button>
+                                    <button type="submit" class="btn btn-lg btn-primary btn-block">Entrar</button>
                                 </div>
                             </div>
                         </form>
+
+                        <div class="alert alert-light border small mt-3 mb-0">
+                            <strong>Acesso inicial:</strong><br>
+                            Login: <code>admin@admin</code><br>
+                            Senha: <code>123</code>
+                        </div>
 
                         <p><br /></p>
                         <p class="mb-3 mt-3 text-center"> <a href="{{ base_url() }}/forgot-password">Esqueci Minha Senha</a> </p>
