@@ -29,7 +29,7 @@ final class RoleController extends BaseController {
         if (!$request->isPost()) {
             $roleId = $args['id'] ?? null;
             $this->view->render($response, 'admin/ui/modals/roles/create.twig', [
-                'allroutes' => $this->listRoutes($roleId),
+                'routeGroups' => $this->listRoutes($roleId),
                 'role' => Role::getOne($roleId)
             ]);
 
@@ -80,14 +80,22 @@ final class RoleController extends BaseController {
      * Monta a matriz de rotas administrativas usada no formulario de permissoes.
      *
      * @param int|null $role_id Grupo em edicao, ou null para um novo grupo.
-     * @return array<string,array{method:string,pattern:string,checked:mixed}> Rotas indexadas por METHOD:/pattern.
+     * @return array<string,array{label:string,routes:array<int,array{method:string,pattern:string,checked:mixed}>>>
      */
-    private function listRoutes(int $role_id = null): ?array {
+    private function listRoutes(int $role_id = null): array {
         $return = [];
 
         foreach ($this->allroutes as $value) {
             if (strpos($value['pattern'], '/admin/') !== false) {
-                $return[$value['method'] . ':' . $value['pattern']] = [
+                $groupKey = $this->routeGroupKey($value['pattern']);
+                if (!isset($return[$groupKey])) {
+                    $return[$groupKey] = [
+                        'label' => $this->routeGroupLabel($groupKey),
+                        'routes' => []
+                    ];
+                }
+
+                $return[$groupKey]['routes'][] = [
                     'method' => $value['method'],
                     'pattern' => $value['pattern'],
                     'checked' => Permission::getCell('SELECT status FROM permission WHERE role_id = ? AND method = ? AND pattern = ?', [$role_id, $value['method'], $value['pattern']])
@@ -96,6 +104,59 @@ final class RoleController extends BaseController {
         }
 
         return $return;
+    }
+
+    /**
+     * Identifica o modulo administrativo ao qual uma rota pertence.
+     */
+    private function routeGroupKey(string $pattern): string {
+        if (strpos($pattern, '/admin/users/roles') === 0) {
+            return 'roles';
+        }
+
+        if (strpos($pattern, '/admin/users') === 0) {
+            return 'users';
+        }
+
+        if (strpos($pattern, '/admin/profile') === 0) {
+            return 'profile';
+        }
+
+        if (strpos($pattern, '/admin/projects') === 0) {
+            return 'projects';
+        }
+
+        if (strpos($pattern, '/admin/clients') === 0) {
+            return 'clients';
+        }
+
+        if (strpos($pattern, '/admin/reports') === 0) {
+            return 'reports';
+        }
+
+        if (strpos($pattern, '/admin/home') === 0) {
+            return 'dashboard';
+        }
+
+        return 'other';
+    }
+
+    /**
+     * Rotulos amigaveis para facilitar a leitura da tela de ACL.
+     */
+    private function routeGroupLabel(string $groupKey): string {
+        $labels = [
+            'dashboard' => 'Dashboard',
+            'users' => 'Usuários',
+            'roles' => 'Grupos e permissões',
+            'profile' => 'Perfil',
+            'projects' => 'Projetos',
+            'clients' => 'Clientes',
+            'reports' => 'Relatórios',
+            'other' => 'Outras rotas',
+        ];
+
+        return $labels[$groupKey] ?? $groupKey;
     }
 
 }

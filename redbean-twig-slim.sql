@@ -44,7 +44,14 @@ INSERT INTO `permission` (`id`, `role_id`, `method`, `pattern`, `status`) VALUES
 (990, 1, 'POST', '/admin/projects/save', 'allow'),
 (991, 1, 'GET', '/admin/projects/update/{id}', 'allow'),
 (992, 1, 'GET', '/admin/projects/delete/{id}', 'allow'),
-(993, 1, 'DELETE', '/admin/projects/delete', 'allow');
+(993, 1, 'DELETE', '/admin/projects/delete', 'allow'),
+(994, 1, 'GET', '/admin/clients/list', 'allow'),
+(995, 1, 'GET', '/admin/clients/create', 'allow'),
+(996, 1, 'POST', '/admin/clients/save', 'allow'),
+(997, 1, 'GET', '/admin/clients/update/{id}', 'allow'),
+(998, 1, 'GET', '/admin/clients/delete/{id}', 'allow'),
+(999, 1, 'DELETE', '/admin/clients/delete', 'allow'),
+(1000, 1, 'GET', '/admin/reports/cases', 'allow');
 
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
@@ -115,6 +122,23 @@ INSERT INTO `project` (`id`, `name`, `client`, `status`, `budget`, `deliverydate
 (1, 'Portal de validação de MVP', 'Cliente piloto', 'mvp', 4500.00, '2026-07-15', 'CRUD de demonstração para apresentar como a base acelera backoffices pequenos.', '2026-06-15 10:00:00'),
 (2, 'POC de painel operacional', 'Operação interna', 'validacao', 2800.00, '2026-07-30', 'Exemplo de cadastro simples usando Slim, Twig, RedBeanPHP, CSRF e ACL.', '2026-06-15 10:10:00');
 
+DROP TABLE IF EXISTS `client`;
+CREATE TABLE `client` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `phone` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `status` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `segment` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_520_ci,
+  `createdat` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+TRUNCATE TABLE `client`;
+INSERT INTO `client` (`id`, `name`, `email`, `phone`, `status`, `segment`, `notes`, `createdat`) VALUES
+(1, 'Clínica Horizonte', 'contato@clinicahorizonte.test', '(11) 90000-0001', 'ativo', 'Saúde', 'Cliente exemplo para demonstrar cadastro comercial simples.', '2026-06-15 10:20:00'),
+(2, 'Mercado Norte', 'operacao@mercadonorte.test', '(11) 90000-0002', 'prospect', 'Varejo', 'Prospect usado para simular validação de POC administrativa.', '2026-06-15 10:25:00');
+
 
 ALTER TABLE `permission`
   ADD PRIMARY KEY (`id`),
@@ -134,6 +158,9 @@ ALTER TABLE `profile`
 ALTER TABLE `project`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `client`
+  ADD PRIMARY KEY (`id`);
+
 
 ALTER TABLE `permission`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1006;
@@ -148,6 +175,9 @@ ALTER TABLE `profile`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `project`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+ALTER TABLE `client`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 

@@ -3,13 +3,23 @@
     <li class="nav-item"> <a href="{{ base_url() }}/admin/home" class="nav-link {{ title == 'Início' ? 'active' : '' }}"> <i class="nav-icon fas fa-home"></i> <p>Início</p> </a> </li>
 {% endif %}
 
-{# Case de portfólio #}
-{% if isAllow('/admin/projects/list') %}
-    <li class="nav-item"> <a href="{{ base_url() }}/admin/projects/list" class="nav-link {{ title == 'Projetos' ? 'active' : '' }}"> <i class="nav-icon fas fa-briefcase"></i> <p>Projetos</p> </a> </li>
+{# Cases de portfólio #}
+{% if (isAllow('/admin/projects/list') or isAllow('/admin/clients/list') or isAllow('/admin/reports/cases')) %}
+    <li class="nav-header">CASES</li>
+    {% if isAllow('/admin/reports/cases') %}
+        <li class="nav-item"> <a href="{{ base_url() }}/admin/reports/cases" class="nav-link {{ title == 'Relatórios' ? 'active' : '' }}"> <i class="nav-icon fas fa-chart-line"></i> <p>Relatórios</p> </a> </li>
+    {% endif %}
+    {% if isAllow('/admin/projects/list') %}
+        <li class="nav-item"> <a href="{{ base_url() }}/admin/projects/list" class="nav-link {{ title == 'Projetos' ? 'active' : '' }}"> <i class="nav-icon fas fa-briefcase"></i> <p>Projetos</p> </a> </li>
+    {% endif %}
+    {% if isAllow('/admin/clients/list') %}
+        <li class="nav-item"> <a href="{{ base_url() }}/admin/clients/list" class="nav-link {{ title == 'Clientes' ? 'active' : '' }}"> <i class="nav-icon fas fa-address-book"></i> <p>Clientes</p> </a> </li>
+    {% endif %}
 {% endif %}
 
 {# Controle de usuários #}
 {% if (isAllow('/admin/users/roles/list') or isAllow('/admin/users/list') or isAllow('/admin/users/import-users-from-rsvp')) %}
+    <li class="nav-header">ADMINISTRAÇÃO</li>
     <li class="nav-item" data-group="users">
         <a href="javascript:;" class="nav-link"> <i class="nav-icon fas fa-users"></i> <p>Usuários <i class="right fas fa-angle-left"></i></p> </a>
         <ul class="nav nav-treeview">

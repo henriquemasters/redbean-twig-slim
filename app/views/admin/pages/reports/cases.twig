@@ -1,0 +1,89 @@
+{% extends 'admin/template.twig' %}
+
+{% block content %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6"><h1><i class="fas fa-chart-line"></i> {{ title }}</h1></div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right small">
+                        <li class="breadcrumb-item"><a href="{{ base_url() }}/admin/home">Admin</a></li>
+                        <li class="breadcrumb-item active">Relatórios de case</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner"><h3>{{ summary.projects }}</h3><p>Projetos</p></div>
+                        <div class="icon"><i class="fas fa-briefcase"></i></div>
+                        <a href="{{ base_url() }}/admin/projects/list" class="small-box-footer">Abrir projetos <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner"><h3>{{ summary.clients }}</h3><p>Clientes</p></div>
+                        <div class="icon"><i class="fas fa-address-book"></i></div>
+                        <a href="{{ base_url() }}/admin/clients/list" class="small-box-footer">Abrir clientes <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner"><h3>{{ summary.permissions }}</h3><p>Permissões</p></div>
+                        <div class="icon"><i class="fas fa-key"></i></div>
+                        <a href="{{ base_url() }}/admin/users/roles/list" class="small-box-footer">Revisar ACL <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-danger">
+                        <div class="inner"><h3>{{ summary.users }}</h3><p>Usuários</p></div>
+                        <div class="icon"><i class="fas fa-users"></i></div>
+                        <a href="{{ base_url() }}/admin/users/list" class="small-box-footer">Abrir usuários <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header"><h3 class="card-title"><i class="fas fa-briefcase"></i> Projetos recentes</h3></div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-striped mb-0">
+                                <thead><tr><th>Projeto</th><th>Cliente</th><th>Status</th></tr></thead>
+                                <tbody>
+                                    {% for project in recent_projects %}
+                                        <tr><td>{{ project.name }}</td><td>{{ project.client }}</td><td><span class="badge badge-info text-uppercase">{{ project.status }}</span></td></tr>
+                                    {% else %}
+                                        <tr><td colspan="3" class="text-center text-muted">Nenhum projeto cadastrado.</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-secondary card-outline">
+                        <div class="card-header"><h3 class="card-title"><i class="fas fa-address-book"></i> Clientes recentes</h3></div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-striped mb-0">
+                                <thead><tr><th>Cliente</th><th>E-mail</th><th>Status</th></tr></thead>
+                                <tbody>
+                                    {% for client in recent_clients %}
+                                        <tr><td>{{ client.name }}</td><td>{{ client.email }}</td><td><span class="badge badge-info text-uppercase">{{ client.status }}</span></td></tr>
+                                    {% else %}
+                                        <tr><td colspan="3" class="text-center text-muted">Nenhum cliente cadastrado.</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

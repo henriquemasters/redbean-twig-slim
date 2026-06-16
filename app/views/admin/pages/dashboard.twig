@@ -46,11 +46,11 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{ metrics.permissions }}</h3>
-                            <p>Permissões</p>
+                            <h3>{{ metrics.clients }}</h3>
+                            <p>Clientes</p>
                         </div>
-                        <div class="icon"><i class="fas fa-key"></i></div>
-                        <a href="{{ base_url() }}/admin/users/roles/list" class="small-box-footer">Revisar ACL <i class="fas fa-arrow-circle-right"></i></a>
+                        <div class="icon"><i class="fas fa-address-book"></i></div>
+                        <a href="{{ base_url() }}/admin/clients/list" class="small-box-footer">Ver segundo CRUD <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -101,7 +101,9 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="list-group list-group-flush">
+                                <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/reports/cases">Relatórios de case</a>
                                 <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/projects/list">Projetos de case</a>
+                                <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/clients/list">Clientes de case</a>
                                 <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/users/list">Usuários</a>
                                 <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/users/roles/list">Grupos e permissões</a>
                                 <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/profile">Meu perfil</a>

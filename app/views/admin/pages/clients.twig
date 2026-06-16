@@ -1,0 +1,123 @@
+{% extends 'admin/template.twig' %}
+
+{% block styles %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6"><h1><i class="fas fa-address-book"></i> {{ title }}</h1></div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right small">
+                        <li class="breadcrumb-item"><a href="{{ base_url() }}/admin/home">Admin</a></li>
+                        <li class="breadcrumb-item active">{{ title }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title"><b>Clientes do case:</b></h3>
+            </div>
+
+            {% if isAllow('/admin/clients/create') %}
+                <div class="col mt-2"><a href="{{ base_url() }}/admin/clients/create" rel="modal" title="ADICIONAR CLIENTE" class="btn btn-sm btn-primary text-white float-right"><i class="fa fa-plus-circle"></i> <span class="d-none d-sm-inline small">Adicionar</span></a></div>
+            {% endif %}
+
+            <div class="card-body">
+                <table class="table table-bordered table-striped table-condensed list">
+                    <thead>
+                        <tr class="small">
+                            <th class="all"><b>#</b></th>
+                            <th class="all"><b>Cliente</b></th>
+                            <th class="desktop"><b>Contato</b></th>
+                            <th class="desktop text-center"><b>Status</b></th>
+                            <th class="desktop"><b>Segmento</b></th>
+                            {% if (isAllow('/admin/clients/update/{id}') or isAllow('/admin/clients/delete/{id}')) %}
+                                <th class="text-center"><b>Ações</b></th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set count = 0 %}
+                        {% for client in clients %}
+                            {% set count = count + 1 %}
+                            <tr class="small">
+                                <td>{{ count }}</td>
+                                <td>
+                                    <b>{{ client.name|upper }}</b><br>
+                                    <small>{{ client.notes|default('Sem observações')|u.truncate(90, '...', false) }}</small>
+                                </td>
+                                <td>
+                                    {{ client.email }}<br>
+                                    <small>{{ client.phone|default('-') }}</small>
+                                </td>
+                                <td class="text-center"><span class="badge badge-info text-uppercase">{{ client.status }}</span></td>
+                                <td>{{ client.segment|default('-') }}</td>
+                                {% if (isAllow('/admin/clients/update/{id}') or isAllow('/admin/clients/delete/{id}')) %}
+                                    <td class="text-center">
+                                        {% if isAllow('/admin/clients/update/{id}') %}
+                                            <a href="{{ base_url() }}/admin/clients/update/{{ client.id }}" rel="modal" title="EDITAR CLIENTE" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> <span class="d-none d-sm-inline small">EDITAR</span></a>
+                                        {% endif %}
+                                        {% if isAllow('/admin/clients/delete/{id}') %}
+                                            <a href="{{ base_url() }}/admin/clients/delete/{{ client.id }}" rel="modal" title="REMOVER CLIENTE" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> <span class="d-none d-sm-inline small">REMOVER</span></a>
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% else %}
+                            <tr><td colspan="6" class="text-center text-muted">Nenhum cliente cadastrado ainda.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="{{ base_url() }}/assets/admin/js/domodal.js"></script>
+    <script>
+        $(document).ready(function () {
+            doModal();
+
+            $('.list').DataTable({
+                ordering: false,
+                responsive: true,
+                lengthChange: true,
+                autoWidth: false,
+                oLanguage: {
+                    sProcessing: 'Processando...',
+                    sLengthMenu: 'Mostrar _MENU_ itens',
+                    sZeroRecords: 'Não foram encontrados resultados',
+                    sInfo: 'Exibindo _START_ a _END_ de _TOTAL_ itens',
+                    sInfoEmpty: 'Mostrando de 0 até 0 de 0 itens',
+                    sInfoFiltered: '(Total: _MAX_ registros)',
+                    sSearch: 'Busca:',
+                    oPaginate: {
+                        sFirst: 'Primeiro',
+                        sPrevious: 'Anterior',
+                        sNext: 'Próximo',
+                        sLast: 'Último'
+                    }
+                },
+                fnDrawCallback: function () {
+                    doModal();
+                }
+            });
+        });
+    </script>
+{% endblock %}
