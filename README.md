@@ -2,7 +2,7 @@
 
 Microframework PHP autoral para criar MVPs, POCs e pequenas aplicações administrativas com rapidez, mantendo uma estrutura MVC clara e fácil de explicar em portfólio técnico.
 
-A proposta do projeto é simples: entregar uma base funcional com roteamento, templates, persistência, autenticação, painel administrativo, upload de perfil, CSRF, ACL por rota e um CRUD de exemplo sem exigir a complexidade de um framework full-stack.
+A proposta do projeto é simples: entregar uma base funcional com roteamento, templates, persistência, autenticação, painel administrativo, upload de perfil, CSRF, ACL por rota e CRUDs de exemplo sem exigir a complexidade de um framework full-stack.
 
 ## Por que este projeto existe
 
@@ -20,7 +20,7 @@ Este projeto foi criado para esse tipo de cenário. Ele combina bibliotecas madu
 - **Roteamento Slim 3:** rotas declarativas em `app/routes.php`, grupos protegidos e middleware por contexto.
 - **Templates Twig:** herança de layout, helpers, blocos de estilos/scripts e páginas públicas customizáveis.
 - **Persistência com RedBeanPHP:** CRUD rápido para usuários, perfis, grupos, permissões e projetos.
-- **Painel administrativo:** login, dashboard, cadastro de usuários, grupos, perfil, upload de foto e módulo de projetos.
+- **Painel administrativo:** login, dashboard, cadastro de usuários, grupos, perfil, upload de foto e módulos de projetos/clientes.
 - **Segurança pragmática:** senha com `password_hash()`, CSRF em formulários e ACL por rota.
 - **Base para portfólio:** landing, login, dashboard e CRUD de case preparados para apresentar o projeto como vitrine técnica.
 
@@ -122,14 +122,19 @@ Depois de importar o arquivo `redbean-twig-slim.sql`, acesse `/login` com:
 
 O seed inicial usa `password_hash()` para armazenar a senha. Senhas antigas em MD5 ainda são aceitas temporariamente e migradas automaticamente para hash seguro no primeiro login bem-sucedido.
 
-### Módulo de case: Projetos
+### Módulos de case: Projetos e Clientes
 
-O CRUD de `Projetos` demonstra como estender o microframework com um módulo administrativo completo:
+Os CRUDs de `Projetos` e `Clientes` demonstram como estender o microframework com módulos administrativos completos. O resource `Relatórios` demonstra uma rota protegida por ACL sem formulário de escrita, útil para telas de consulta, indicadores e painéis executivos.
 
 - Controller em `app/src/controllers/ProjectController.php`.
 - Model em `app/src/models/Project.php`.
+- Controller em `app/src/controllers/ClientController.php`.
+- Model em `app/src/models/Client.php`.
 - Views Twig em `app/views/admin/pages/projects.twig` e `app/views/admin/ui/modals/projects`.
+- Views Twig em `app/views/admin/pages/clients.twig` e `app/views/admin/ui/modals/clients`.
 - Rotas protegidas em `/admin/projects/*`.
+- Rotas protegidas em `/admin/clients/*`.
+- Resource protegido em `/admin/reports/cases`.
 - Permissões ACL no seed SQL.
 - Formulários com CSRF e validação server-side mínima.
 

@@ -23,9 +23,14 @@ $requiredFiles = [
     'app/views/login.twig',
     'app/views/admin/pages/dashboard.twig',
     'app/views/admin/pages/projects.twig',
+    'app/views/admin/pages/clients.twig',
+    'app/views/admin/pages/reports/cases.twig',
     'app/src/controllers/AuthController.php',
     'app/src/controllers/ProjectController.php',
+    'app/src/controllers/ClientController.php',
+    'app/src/controllers/ReportController.php',
     'app/src/models/Project.php',
+    'app/src/models/Client.php',
     'redbean-twig-slim.sql',
 ];
 
@@ -41,9 +46,15 @@ $routeFragments = [
     '/login',
     "group('/admin'",
     "group('/projects'",
+    "group('/clients'",
+    "group('/reports'",
     "'/list', ProjectController",
     "'/save', ProjectController",
     "'/delete', ProjectController",
+    "'/list', ClientController",
+    "'/save', ClientController",
+    "'/delete', ClientController",
+    "'/cases', ReportController",
 ];
 
 foreach ($routeFragments as $route) {
@@ -53,7 +64,7 @@ foreach ($routeFragments as $route) {
 $sqlPath = $root . DIRECTORY_SEPARATOR . 'redbean-twig-slim.sql';
 $sql = is_file($sqlPath) ? file_get_contents($sqlPath) : '';
 
-foreach (['CREATE TABLE `project`', '/admin/projects/list', 'Portal de validação de MVP'] as $needle) {
+foreach (['CREATE TABLE `project`', '/admin/projects/list', 'Portal de validação de MVP', 'CREATE TABLE `client`', '/admin/clients/list', 'Clínica Horizonte', '/admin/reports/cases'] as $needle) {
     strpos($sql, $needle) !== false ? ok("Seed contempla: {$needle}") : fail($errors, "Seed incompleto para: {$needle}");
 }
 

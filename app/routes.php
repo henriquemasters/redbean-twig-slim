@@ -7,6 +7,8 @@ use App\Controller\UserController;
 use App\Controller\ProfileController;
 use App\Controller\DashController;
 use App\Controller\ProjectController;
+use App\Controller\ClientController;
+use App\Controller\ReportController;
 
 /**
  * Rotas publicas de apresentacao.
@@ -36,6 +38,10 @@ $app->group('/admin', function () use ($app) {
 
     $app->get('/home', DashController::class . ':index')->setName('dashBoard');
 
+    $app->group('/reports', function () use ($app) {
+        $app->get('/cases', ReportController::class . ':cases')->setName('caseReports');
+    });
+
     $app->group('/projects', function () use ($app) {
         $app->get('/list', ProjectController::class . ':index')->setName('projectList');
         $app->get('/create', ProjectController::class . ':create')->setName('projectCreate');
@@ -43,6 +49,15 @@ $app->group('/admin', function () use ($app) {
         $app->get('/update/{id}', ProjectController::class . ':create')->setName('projectEdit');
         $app->get('/delete/{id}', ProjectController::class . ':delete')->setName('projectConfirmDelete');
         $app->delete('/delete', ProjectController::class . ':delete')->setName('projectDelete');
+    });
+
+    $app->group('/clients', function () use ($app) {
+        $app->get('/list', ClientController::class . ':index')->setName('clientList');
+        $app->get('/create', ClientController::class . ':create')->setName('clientCreate');
+        $app->post('/save', ClientController::class . ':create')->setName('clientSave');
+        $app->get('/update/{id}', ClientController::class . ':create')->setName('clientEdit');
+        $app->get('/delete/{id}', ClientController::class . ':delete')->setName('clientConfirmDelete');
+        $app->delete('/delete', ClientController::class . ':delete')->setName('clientDelete');
     });
 
     $app->group('/users', function () use ($app) {

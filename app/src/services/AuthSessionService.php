@@ -28,7 +28,7 @@ class AuthSessionService {
         ];
 
         $_SESSION['config'] = [
-            'resources' => Permission::getCol('select pattern from permission where role_id = 1'),
+            'resources' => [],
             'roles' => [],
             'assignments' => [],
         ];
@@ -52,8 +52,12 @@ class AuthSessionService {
         }
 
         $_SESSION['user_auth']['role']['name'] = Role::getCell('SELECT name FROM role WHERE id = ?', [$_SESSION['user_auth']['role']['id']]);
+        $_SESSION['config']['resources'] = Permission::getCol('SELECT DISTINCT pattern FROM permission');
         $_SESSION['config']['roles'] = Role::getCol('SELECT name FROM role');
-        $_SESSION['config']['assignments'] = [];
+        $_SESSION['config']['assignments'] = [
+            'allow' => [],
+            'deny' => [],
+        ];
 
         foreach (Permission::all() as $permission) {
             $_SESSION['config']['assignments'][$permission->status][$permission->role->name][] = $permission->pattern;

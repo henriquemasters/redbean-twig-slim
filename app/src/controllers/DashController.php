@@ -25,6 +25,7 @@ final class DashController extends BaseController {
                 'roles' => $this->countTable('role'),
                 'permissions' => $this->countTable('permission'),
                 'projects' => $this->countTable('project'),
+                'clients' => $this->countTable('client'),
                 'php_version' => PHP_VERSION,
                 'redbean_version' => R::C_REDBEANPHP_VERSION,
             ],

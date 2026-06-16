@@ -1,7 +1,6 @@
-{# Herda o Layout do Arquivo template.wig #}
+{# Herda o layout administrativo. #}
 {% extends 'admin/template.twig' %}
 
-{# Adiciona um arquivo de estilo CSS ao template.twig #}
 {% block styles %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -9,7 +8,6 @@
     <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 {% endblock %}
 
-{# Corpo/Conteúdo do site #}
 {% block content %}
     <section class="content-header">
         <div class="container-fluid">
@@ -28,7 +26,7 @@
     <section class="content">
         <div class="card card-primary card-outline">
             <div class="card-header">
-                <h3 class="card-title"><b>Lista de Grupos:</b></h3>
+                <h3 class="card-title"><b>Lista de grupos:</b></h3>
             </div>
 
             {% if isAllow('/admin/users/roles/create') %}
@@ -44,7 +42,7 @@
 
                             {% if (isAllow('/admin/users/roles/update/{id}') or isAllow('/admin/users/roles/delete/{id}')) %}
                                 <th class="text-center"><b>Ações</b></th>
-                                {% endif %}
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -76,7 +74,6 @@
     </section>
 {% endblock %}
 
-{# Adiciona um arquivo de JS ao template.twig #}
 {% block scripts %}
     {{ parent() }}
     <script src="{{ base_url() }}/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -95,8 +92,22 @@
     <script src="{{ base_url() }}/assets/admin/js/domodal.js"></script>
     <script>
         $(document).ready(function () {
+            doModal();
+            bindPermissionActions();
             doDataTable('list');
         });
+
+        function bindPermissionActions() {
+            $('body').off('click', '.js-permission-toggle-all').on('click', '.js-permission-toggle-all', function () {
+                var checked = $(this).data('check') == 1;
+                $('#modalForm').find('.permission-route__check').prop('checked', checked);
+            });
+
+            $('body').off('click', '.js-permission-toggle-group').on('click', '.js-permission-toggle-group', function () {
+                var checked = $(this).data('check') == 1;
+                $(this).closest('.permission-card').find('.permission-route__check').prop('checked', checked);
+            });
+        }
 
         function doDataTable(el) {
             $("." + el).DataTable({
@@ -147,7 +158,6 @@
                     }
                 },
                 fnDrawCallback: function () {
-                    // Carrega depois que renderiza Datatable
                     doModal();
                 }
             }).buttons().container().appendTo('#' + el + ' .col-md-6:eq(0)');

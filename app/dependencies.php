@@ -156,3 +156,11 @@ $container['App\Controller\DashController'] = function ($c) {
 $container['App\Controller\ProjectController'] = function ($c) {
     return new App\Controller\ProjectController($c);
 };
+
+$container['App\Controller\ClientController'] = function ($c) {
+    return new App\Controller\ClientController($c);
+};
+
+$container['App\Controller\ReportController'] = function ($c) {
+    return new App\Controller\ReportController($c);
+};

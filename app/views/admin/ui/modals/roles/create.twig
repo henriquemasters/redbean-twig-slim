@@ -3,29 +3,57 @@
     <input name="_type" type="hidden" value="role">
     <input name="id" type="hidden" value="{{ role.id }}">
 
-    <div class="modal-body">
-        <div class="form-role">
+    <div class="modal-body role-permissions-modal">
+        <div class="form-group">
             <label>Grupo</label>
-            <input type="text" name="name" value="{{ role.name }}" class="form-control" required="" placeholder="Informe o nome do Grupo">
+            <input type="text" name="name" value="{{ role.name }}" class="form-control" required placeholder="Informe o nome do grupo">
+            <small class="form-text text-muted">Este nome será usado pela ACL para liberar ou bloquear rotas administrativas.</small>
         </div>
 
-        <div class="form-role">
-            <label>Acessos</label>
-            <div class="col-md-12 p-2 checkbox-list">
-                {% set count = 0 %}
-                {% for route in allroutes %}
-                    {% set count = count + 1 %}
-                    <label class="w-100 text-xs p-2">
-                        <input type="hidden" name="ownPermissionList[{{ count }}][_type]" value="permission">
-                        <input type="hidden" name="ownPermissionList[{{ count }}][role_id]" value="{{ role.id }}">
-                        <input type="hidden" name="ownPermissionList[{{ count }}][method]" value="{{ route.method }}">
-                        <input type="hidden" name="ownPermissionList[{{ count }}][pattern]" value="{{ route.pattern }}">
-
-                        <input type="hidden" name="ownPermissionList[{{ count }}][status]" value="deny">
-                        <input type="checkbox" name="ownPermissionList[{{ count }}][status]" value="allow" {{ (route.checked == 'allow')? 'checked' : null }}> {{ route.method }}: {{ route.pattern }}
-                    </label>
-                {% endfor %}
+        <div class="permissions-toolbar">
+            <div>
+                <label class="mb-0">Permissões por módulo</label>
+                <small class="d-block text-muted">Marque as rotas que este grupo pode acessar. Rotas desmarcadas serão gravadas como bloqueadas.</small>
             </div>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Ações rápidas de permissões">
+                <button type="button" class="btn btn-outline-primary js-permission-toggle-all" data-check="1">Permitir todas</button>
+                <button type="button" class="btn btn-outline-secondary js-permission-toggle-all" data-check="0">Bloquear todas</button>
+            </div>
+        </div>
+
+        <div class="permissions-grid">
+            {% set count = 0 %}
+            {% for group in routeGroups %}
+                <section class="permission-card">
+                    <header class="permission-card__header">
+                        <div>
+                            <strong>{{ group.label }}</strong>
+                            <small>{{ group.routes|length }} rota{{ group.routes|length == 1 ? '' : 's' }}</small>
+                        </div>
+                        <div class="btn-group btn-group-xs" role="group" aria-label="Ações do módulo {{ group.label }}">
+                            <button type="button" class="btn btn-xs btn-outline-primary js-permission-toggle-group" data-check="1">Permitir</button>
+                            <button type="button" class="btn btn-xs btn-outline-secondary js-permission-toggle-group" data-check="0">Bloquear</button>
+                        </div>
+                    </header>
+
+                    <div class="permission-card__body">
+                        {% for route in group.routes %}
+                            {% set count = count + 1 %}
+                            <label class="permission-route">
+                                <input type="hidden" name="ownPermissionList[{{ count }}][_type]" value="permission">
+                                <input type="hidden" name="ownPermissionList[{{ count }}][role_id]" value="{{ role.id }}">
+                                <input type="hidden" name="ownPermissionList[{{ count }}][method]" value="{{ route.method }}">
+                                <input type="hidden" name="ownPermissionList[{{ count }}][pattern]" value="{{ route.pattern }}">
+                                <input type="hidden" name="ownPermissionList[{{ count }}][status]" value="deny">
+
+                                <input class="permission-route__check" type="checkbox" name="ownPermissionList[{{ count }}][status]" value="allow" {{ (route.checked == 'allow') ? 'checked' : null }}>
+                                <span class="permission-route__method permission-route__method--{{ route.method|lower }}">{{ route.method }}</span>
+                                <span class="permission-route__path">{{ route.pattern }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endfor %}
         </div>
     </div>
 

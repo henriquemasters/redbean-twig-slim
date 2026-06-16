@@ -443,3 +443,140 @@ b {
         border-radius: 24px;
     }
 }
+
+/* Role permissions modal */
+.role-permissions-modal {
+    background: #f8f9fb;
+}
+
+.permissions-toolbar {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+    padding: .85rem 1rem;
+    background: #fff;
+    border: 1px solid #e3e7ed;
+    border-radius: .6rem;
+}
+
+.permissions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.permission-card {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e3e7ed;
+    border-radius: .75rem;
+    box-shadow: 0 8px 20px rgba(33, 37, 41, .04);
+}
+
+.permission-card__header {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: .85rem 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f4f8 100%);
+    border-bottom: 1px solid #e3e7ed;
+}
+
+.permission-card__header strong,
+.permission-card__header small {
+    display: block;
+}
+
+.permission-card__header small {
+    color: #6c757d;
+}
+
+.permission-card__body {
+    display: grid;
+    gap: .45rem;
+    padding: .75rem;
+}
+
+.permission-route {
+    display: grid;
+    grid-template-columns: auto 66px 1fr;
+    gap: .55rem;
+    align-items: center;
+    margin: 0;
+    padding: .55rem .65rem;
+    color: #343a40;
+    background: #f8f9fb;
+    border: 1px solid transparent;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: background .16s ease, border-color .16s ease;
+}
+
+.permission-route:hover {
+    background: #fff;
+    border-color: #cfd6df;
+}
+
+.permission-route__method {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 54px;
+    padding: .2rem .4rem;
+    color: #fff;
+    font-size: .68rem;
+    font-weight: 700;
+    border-radius: 999px;
+}
+
+.permission-route__method--get {
+    background: #17a2b8;
+}
+
+.permission-route__method--post {
+    background: #28a745;
+}
+
+.permission-route__method--delete {
+    background: #dc3545;
+}
+
+.permission-route__method--put,
+.permission-route__method--patch {
+    background: #ffc107;
+    color: #212529;
+}
+
+.permission-route__path {
+    overflow: hidden;
+    font-family: Consolas, Monaco, monospace;
+    font-size: .78rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.btn-group-xs > .btn,
+.btn-xs {
+    padding: .15rem .4rem;
+    font-size: .72rem;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .permissions-toolbar,
+    .permission-card__header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .permissions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .permission-route {
+        grid-template-columns: auto 58px minmax(0, 1fr);
+    }
+}
