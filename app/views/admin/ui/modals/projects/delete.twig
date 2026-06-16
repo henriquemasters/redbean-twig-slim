@@ -1,0 +1,15 @@
+<form name="formModal" method="post" action="{{ base_url() }}/admin/projects/delete" class="form-horizontal">
+    {{ csrf_field() }}
+    <input name="_type" type="hidden" value="project">
+    <input name="_METHOD" type="hidden" value="DELETE">
+    <input name="id" type="hidden" value="{{ data.id }}">
+
+    <div class="modal-body small">
+        <p class="mb-0">Confirma a remoção do projeto <strong>{{ data.name }}</strong>?</p>
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <button class="btn btn-sm btn-danger"><i class="fa fa-check-circle"></i> <span class="small">REMOVER</span></button>
+        <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> <span class="small">CANCELAR</span></a>
+    </div>
+</form>

@@ -152,3 +152,7 @@ $container['App\Controller\ProfileController'] = function ($c) {
 $container['App\Controller\DashController'] = function ($c) {
     return new App\Controller\DashController($c);
 };
+
+$container['App\Controller\ProjectController'] = function ($c) {
+    return new App\Controller\ProjectController($c);
+};

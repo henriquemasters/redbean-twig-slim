@@ -21,15 +21,27 @@ final class DashController extends BaseController {
             'title' => 'Início',
             'user_auth' => $_SESSION['user_auth'],
             'metrics' => [
-                'users' => R::count('user'),
-                'roles' => R::count('role'),
-                'permissions' => R::count('permission'),
+                'users' => $this->countTable('user'),
+                'roles' => $this->countTable('role'),
+                'permissions' => $this->countTable('permission'),
+                'projects' => $this->countTable('project'),
                 'php_version' => PHP_VERSION,
                 'redbean_version' => R::C_REDBEANPHP_VERSION,
             ],
         ]);
 
         return $response;
+    }
+
+    /**
+     * Evita quebra do dashboard quando um modulo novo ainda nao foi importado no banco.
+     */
+    private function countTable(string $table): int {
+        try {
+            return R::count($table);
+        } catch (\Throwable $exception) {
+            return 0;
+        }
     }
 
 }

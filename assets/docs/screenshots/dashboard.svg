@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Dashboard administrativo</title>
+  <desc id="desc">Preview do dashboard com metricas, stack e atalhos.</desc>
+  <rect width="1280" height="760" fill="#e9e9e9"/>
+  <rect x="0" y="0" width="250" height="760" fill="#343a40"/>
+  <rect x="250" y="0" width="1030" height="58" fill="#d81b60"/>
+  <text x="42" y="38" font-family="Arial" font-size="22" font-weight="700" fill="#fff">RedBean Twig Slim</text>
+  <text x="36" y="128" font-family="Arial" font-size="13" fill="#adb5bd">FERRAMENTAS</text>
+  <text x="36" y="174" font-family="Arial" font-size="18" fill="#fff">Inicio</text>
+  <text x="36" y="220" font-family="Arial" font-size="18" fill="#fff">Projetos</text>
+  <text x="36" y="266" font-family="Arial" font-size="18" fill="#fff">Usuarios</text>
+  <text x="292" y="112" font-family="Arial" font-size="32" font-weight="700" fill="#212529">Inicio</text>
+  <g font-family="Arial" fill="#fff">
+    <rect x="292" y="150" width="210" height="122" rx="8" fill="#17a2b8"/><text x="322" y="205" font-size="42" font-weight="700">1</text><text x="322" y="240" font-size="18">Usuarios</text>
+    <rect x="526" y="150" width="210" height="122" rx="8" fill="#28a745"/><text x="556" y="205" font-size="42" font-weight="700">2</text><text x="556" y="240" font-size="18">Projetos</text>
+    <rect x="760" y="150" width="210" height="122" rx="8" fill="#ffc107"/><text x="790" y="205" font-size="42" font-weight="700">24</text><text x="790" y="240" font-size="18">Permissoes</text>
+    <rect x="994" y="150" width="210" height="122" rx="8" fill="#dc3545"/><text x="1024" y="205" font-size="42" font-weight="700">8.3</text><text x="1024" y="240" font-size="18">PHP</text>
+  </g>
+  <rect x="292" y="316" width="580" height="250" rx="8" fill="#fff" stroke="#dee2e6"/>
+  <text x="322" y="366" font-family="Arial" font-size="24" font-weight="700" fill="#212529">Stack da aplicacao</text>
+  <text x="322" y="420" font-family="Arial" font-size="18" fill="#495057">Slim 3: rotas e middleware</text>
+  <text x="322" y="458" font-family="Arial" font-size="18" fill="#495057">Twig: templates administrativos</text>
+  <text x="322" y="496" font-family="Arial" font-size="18" fill="#495057">RedBeanPHP: persistencia rapida</text>
+  <rect x="902" y="316" width="302" height="250" rx="8" fill="#fff" stroke="#dee2e6"/>
+  <text x="932" y="366" font-family="Arial" font-size="24" font-weight="700" fill="#212529">Atalhos</text>
+  <text x="932" y="420" font-family="Arial" font-size="18" fill="#495057">Projetos de case</text>
+  <text x="932" y="458" font-family="Arial" font-size="18" fill="#495057">Usuarios</text>
+  <text x="932" y="496" font-family="Arial" font-size="18" fill="#495057">Grupos e permissoes</text>
+</svg>

@@ -1,0 +1,44 @@
+<form id="formModal" name="formModal" method="post" action="{{ base_url() }}/admin/projects/save" class="form-horizontal" autocomplete="off">
+    {{ csrf_field() }}
+    <input name="_type" type="hidden" value="project">
+    <input name="id" type="hidden" value="{{ project.id }}">
+
+    <div class="modal-body small">
+        <div class="form-group">
+            <label>Nome do projeto</label>
+            <input type="text" name="name" value="{{ project.name }}" class="form-control" required placeholder="Ex.: MVP de agenda comercial">
+        </div>
+        <div class="form-group">
+            <label>Cliente ou contexto</label>
+            <input type="text" name="client" value="{{ project.client }}" class="form-control" required placeholder="Ex.: Cliente piloto">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Status</label>
+                <select name="status" class="form-control" required>
+                    <option value="">-- Selecione --</option>
+                    {% for value, label in statuses %}
+                        <option value="{{ value }}" {{ (value == project.status) ? 'selected' : '' }}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Entrega prevista</label>
+                <input type="date" name="deliverydate" value="{{ project.deliverydate }}" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Orçamento estimado</label>
+            <input type="number" step="0.01" min="0" name="budget" value="{{ project.budget }}" class="form-control" placeholder="Ex.: 4500.00">
+        </div>
+        <div class="form-group">
+            <label>Descrição</label>
+            <textarea name="description" rows="4" class="form-control" placeholder="Descreva o objetivo do MVP/POC">{{ project.description }}</textarea>
+        </div>
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <button class="btn btn-sm btn-primary"><i class="fa fa-check-circle"></i> <span class="small">CONFIRMAR</span></button>
+        <a href="javascript:;" class="btn btn-sm btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> <span class="small">CANCELAR</span></a>
+    </div>
+</form>
