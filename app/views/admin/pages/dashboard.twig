@@ -1,35 +1,119 @@
-{# Herda o Layout do Arquivo template.wig #}
 {% extends 'admin/template.twig' %}
 
-{# Adiciona um arquivo de estilo CSS ao template.twig #}
 {% block styles %}
     {{ parent() }}
 {% endblock %}
 
-{# Corpo/Conteúdo do site #}
 {% block content %}
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6"><h1><i class="fas fa-home"></i> {{ title }}</h1></div>
                 <div class="col-sm-6">
-                {#    <ol class="breadcrumb float-sm-right small">
-                        <li class="breadcrumb-item"><a href="javascript:;">Usuários</a></li>
-                        <li class="breadcrumb-item active">{{ title }}</li>
+                    <ol class="breadcrumb float-sm-right small">
+                        <li class="breadcrumb-item active">Painel administrativo</li>
                     </ol>
-                </div>#}
+                </div>
             </div>
         </div>
     </section>
 
     <section class="content">
-        <div class="row">
-            <div class="col-lg-12"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{ metrics.users }}</h3>
+                            <p>Usuários</p>
+                        </div>
+                        <div class="icon"><i class="fas fa-users"></i></div>
+                        <a href="{{ base_url() }}/admin/users/list" class="small-box-footer">Gerenciar usuários <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{ metrics.roles }}</h3>
+                            <p>Grupos</p>
+                        </div>
+                        <div class="icon"><i class="fas fa-user-shield"></i></div>
+                        <a href="{{ base_url() }}/admin/users/roles/list" class="small-box-footer">Gerenciar grupos <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{ metrics.permissions }}</h3>
+                            <p>Permissões</p>
+                        </div>
+                        <div class="icon"><i class="fas fa-key"></i></div>
+                        <a href="{{ base_url() }}/admin/users/roles/list" class="small-box-footer">Revisar ACL <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>{{ metrics.php_version|split('.')[0] }}.{{ metrics.php_version|split('.')[1] }}</h3>
+                            <p>PHP {{ metrics.php_version }}</p>
+                        </div>
+                        <div class="icon"><i class="fas fa-code"></i></div>
+                        <a href="{{ base_url() }}/admin/profile" class="small-box-footer">Ver perfil <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-layer-group"></i> Stack da aplicação</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-3">Este painel demonstra os recursos centrais do microframework: autenticação, sessão, ACL por rota, Twig, RedBeanPHP e controllers PSR-7.</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong>Slim 3:</strong> rotas e middleware.</li>
+                                        <li><strong>Twig:</strong> templates administrativos.</li>
+                                        <li><strong>RedBeanPHP:</strong> persistência rápida.</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong>PHP:</strong> {{ metrics.php_version }}</li>
+                                        <li><strong>RedBeanPHP:</strong> {{ metrics.redbean_version }}</li>
+                                        <li><strong>ACL:</strong> permissões por pattern de rota.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card card-secondary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-bolt"></i> Atalhos</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="list-group list-group-flush">
+                                <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/users/list">Usuários</a>
+                                <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/users/roles/list">Grupos e permissões</a>
+                                <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/profile">Meu perfil</a>
+                                <a class="list-group-item list-group-item-action" href="{{ base_url() }}" target="_blank">Página pública</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 {% endblock %}
 
-{# Adiciona um arquivo de JS ao template.twig #}
 {% block scripts %}
     {{ parent() }}
 {% endblock %}

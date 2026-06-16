@@ -5,3 +5,5 @@
 /log/
 /uploads/
 composer.lock
+/docs/
+.env

@@ -10,14 +10,28 @@ use RedBeanPHP\R;
 class User extends R {
 
     /**
-     * Busca um usuario por login e senha.
+     * Busca um usuario por login e valida a senha no servidor.
+     *
+     * Mantem compatibilidade temporaria com senhas MD5 antigas. Quando uma senha
+     * legada autentica com sucesso, ela e migrada automaticamente para
+     * password_hash().
      *
      * @param string $email Login/e-mail informado no formulario de autenticacao.
-     * @param string $pass Valor de senha conforme armazenado pelo schema legado.
+     * @param string $pass Senha em texto enviada pelo formulario.
      * @return \RedBeanPHP\OODBBean|null Bean do usuario encontrado ou null.
      */
     public static function getOne(string $email, string $pass): ?\RedBeanPHP\OODBBean {
-        return R::findOne('user', 'login = ? and pass = ?', [$email, $pass]);
+        $user = self::getByLogin($email);
+
+        if (!$user || !self::passwordMatches($pass, (string) $user->pass)) {
+            return null;
+        }
+
+        if (self::passwordNeedsRehash((string) $user->pass)) {
+            self::updatePassword($user->id, $pass);
+        }
+
+        return $user;
     }
 
     /** @return array|null Todos os beans de usuario indexados pelo RedBeanPHP. */
@@ -53,6 +67,11 @@ class User extends R {
      */
     public static function save(array $data): ?int {
         unset($data['confirmpassword']);
+
+        if (!empty($data['pass']) && self::passwordNeedsRehash((string) $data['pass'])) {
+            $data['pass'] = password_hash($data['pass'], PASSWORD_DEFAULT);
+        }
+
         return R::store(R::dispense($data));
     }
 
@@ -94,6 +113,37 @@ class User extends R {
         $p = R::loadForUpdate('user', $uId);
         $p->photo = $newName;
         return R::store($p);
+    }
+
+    /**
+     * Atualiza somente a senha do usuario usando hash seguro.
+     */
+    public static function updatePassword(int $uId, string $plainPassword): ?int {
+        $u = R::loadForUpdate('user', $uId);
+        $u->pass = password_hash($plainPassword, PASSWORD_DEFAULT);
+        return R::store($u);
+    }
+
+    /**
+     * Verifica senha moderna ou senha legada em MD5.
+     */
+    private static function passwordMatches(string $plainPassword, string $storedPassword): bool {
+        if (password_verify($plainPassword, $storedPassword)) {
+            return true;
+        }
+
+        return strlen($storedPassword) === 32 && hash_equals($storedPassword, md5($plainPassword));
+    }
+
+    /**
+     * Detecta hashes ausentes, legados ou gerados com parametros antigos.
+     */
+    private static function passwordNeedsRehash(string $storedPassword): bool {
+        if (strlen($storedPassword) === 32 && ctype_xdigit($storedPassword)) {
+            return true;
+        }
+
+        return password_get_info($storedPassword)['algo'] === 0 || password_needs_rehash($storedPassword, PASSWORD_DEFAULT);
     }
 
 }

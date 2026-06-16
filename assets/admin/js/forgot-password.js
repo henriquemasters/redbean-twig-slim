@@ -49,7 +49,7 @@ function submitFormUser() {
         messages: {
             login: 'Este campo é obrigatório.',
             pass: 'Obrigatório informar a senha.',
-            confirmpassword: 'A senhas não conferem. Por favor tente novamente.'
+            confirmpassword: 'As senhas não conferem. Por favor tente novamente.'
         },
         submitHandler: function (form) {
             if ($('#show_hide_password input').attr("type") == "text") {
@@ -57,8 +57,6 @@ function submitFormUser() {
                 $('#show_hide_password i').addClass("fa-eye-slash");
                 $('#show_hide_password i').removeClass("fa-eye");
             }
-            $('#password').val(hex_md5($('#password').val()));
-            $('#confirmpassword').val(hex_md5($('#confirmpassword').val()));
             form.submit();
         }
     });

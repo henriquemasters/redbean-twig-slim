@@ -63,7 +63,7 @@ CREATE TABLE `user` (
 
 TRUNCATE TABLE `user`;
 INSERT INTO `user` (`id`, `name`, `role_id`, `login`, `pass`, `lastlogin`, `photo`) VALUES
-(1, 'User Admin', 1, 'admin@admin', '202cb962ac59075b964b07152d234b70', '2021-10-21 14:46:23', NULL);
+(1, 'User Admin', 1, 'admin@admin', '$2y$10$NybM0qpCsJja1KQzqPQGmu3Ndqb7dW24/zC/5kDpGp.7I6YeUUFd.', '2021-10-21 14:46:23', NULL);
 
 DROP TABLE IF EXISTS `profile`;
 CREATE TABLE `profile` (

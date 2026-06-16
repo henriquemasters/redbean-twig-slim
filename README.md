@@ -86,19 +86,19 @@ Instale as dependências:
 composer install
 ```
 
+Copie o arquivo de ambiente:
+
+```sh
+copy .env.example .env
+```
+
 Crie o banco e importe o SQL:
 
 ```sh
 mysql -u root -p myapp < redbean-twig-slim.sql
 ```
 
-Ajuste a conexão se necessário em `app/database.php`:
-
-```php
-R::setup('mysql:host=localhost; dbname=myapp', 'root', '123');
-```
-
-Abra o projeto pelo servidor web apontando para a raiz do repositório.
+Ajuste as credenciais em `.env` quando necessário. Para o passo a passo completo, consulte `INSTALL.md`.
 
 ## Paginas de demonstração
 
@@ -115,7 +115,7 @@ Depois de importar o arquivo `redbean-twig-slim.sql`, acesse `/login` com:
 - Login: `admin@admin`
 - Senha: `123`
 
-O formulário aplica MD5 no navegador antes de enviar a senha, por compatibilidade com o seed legado do banco. Antes de usar este projeto em produção, substitua esse fluxo por hash seguro no servidor, como `password_hash()` e `password_verify()`.
+O seed inicial usa `password_hash()` para armazenar a senha. Senhas antigas em MD5 ainda são aceitas temporariamente e migradas automaticamente para hash seguro no primeiro login bem-sucedido.
 
 ## Pontos de extensao
 
@@ -130,7 +130,7 @@ O formulário aplica MD5 no navegador antes de enviar a senha, por compatibilida
 
 Este projeto nasceu como base para MVPs e POCs. Antes de usar em produção, revise obrigatoriamente:
 
-- Hash de senhas e política de autenticação.
+- Política de autenticação, recuperação de senha e rotação de credenciais.
 - Variáveis de ambiente para credenciais de banco.
 - `displayErrorDetails` em produção.
 - Validação server-side de formulários.
