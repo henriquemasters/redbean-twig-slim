@@ -1,17 +1,20 @@
 <?php
 
+$csrfMiddleware = function ($request, $response, $next) use ($app) {
+    $unsafeMethods = ['POST', 'PUT', 'PATCH', 'DELETE'];
+
+    if (in_array($request->getMethod(), $unsafeMethods, true) && !$app->getContainer()->csrf->validate($request)) {
+        return $response->withStatus(403)->write('Token CSRF invalido. Atualize a pagina e tente novamente.');
+    }
+
+    return $next($request, $response);
+};
+
+$app->add($csrfMiddleware);
+
 $aclMiddleware = function ($request, $response, $next) use ($app) {
     if (isset($_SESSION['user_auth'])) {
-        // Reconstroi os dados de ACL a cada requisicao protegida para que
-        // alteracoes de grupos/permissoes no painel tenham efeito sem novo login.
-        $_SESSION['user_auth']['role']['name'] = App\Model\Role::getCell('SELECT name FROM role WHERE id = ?', [$_SESSION['user_auth']['role']['id']]);
-
-        $_SESSION['config']['roles'] = App\Model\Role::getCol('SELECT name FROM role');
-        $_SESSION['config']['assignments'] = [];
-
-        foreach (\App\Model\Permission::all() as $permission) {
-            $_SESSION['config']['assignments'][$permission->status][$permission->role->name][] = $permission->pattern;
-        }
+        $app->getContainer()->authSession->refreshAcl();
 
         $acl = new \Geggleto\Acl\AclRepository([$_SESSION['user_auth']['role']['name']], $_SESSION['config']);
         $allowed = false;

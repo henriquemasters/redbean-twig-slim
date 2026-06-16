@@ -2,6 +2,9 @@
 
 // Configuracao do DIC (Dependency Injection Container).
 
+require_once __DIR__ . '/src/services/AuthSessionService.php';
+require_once __DIR__ . '/src/services/CsrfService.php';
+
 $container = $app->getContainer();
 
 // -----------------------------------------------------------------------------
@@ -24,6 +27,10 @@ $container['view'] = function ($c) {
                                 $allows = $_SESSION['config']['assignments']['allow'][$roleName] ?? [];
                                 return in_array($url, $allows);
                             }));
+    $view->getEnvironment()
+            ->addFunction(new Twig\TwigFunction('csrf_field', function () use ($c) {
+                                return $c->get('csrf')->field();
+                            }, ['is_safe' => ['html']]));
 
     $view->offsetSet('constants', [
         'APP_NAME' => 'RedBean Twig Slim',
@@ -41,6 +48,14 @@ $container['view'] = function ($c) {
 // -----------------------------------------------------------------------------
 $container['flash'] = function ($c) {
     return new \Slim\Flash\Messages;
+};
+
+$container['authSession'] = function ($c) {
+    return new \App\Service\AuthSessionService();
+};
+
+$container['csrf'] = function ($c) {
+    return new \App\Service\CsrfService();
 };
 
 // -----------------------------------------------------------------------------

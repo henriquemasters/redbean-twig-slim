@@ -27,7 +27,7 @@ final class SiteController extends BaseController {
      * @param array $args Argumentos da rota fornecidos pelo Slim.
      * @return Response|null Resposta renderizada.
      */
-    public function PageOne(Request $request, Response $response, array $args): ?Response {
+    public function pageOne(Request $request, Response $response, array $args): ?Response {
         return $this->renderPublicPage($response, 'pages/page-1.twig', 'Roteamento objetivo', 'Rotas declarativas ligam URLs a controllers PSR-7 sem boilerplate.');
     }
 
@@ -39,7 +39,7 @@ final class SiteController extends BaseController {
      * @param array $args Argumentos da rota fornecidos pelo Slim.
      * @return Response|null Resposta renderizada.
      */
-    public function PageTwo(Request $request, Response $response, array $args): ?Response {
+    public function pageTwo(Request $request, Response $response, array $args): ?Response {
         return $this->renderPublicPage($response, 'pages/page-2.twig', 'Persistencia simples', 'Models encapsulam RedBeanPHP para acelerar CRUDs pequenos.');
     }
 
@@ -51,7 +51,7 @@ final class SiteController extends BaseController {
      * @param array $args Argumentos da rota fornecidos pelo Slim.
      * @return Response|null Resposta renderizada.
      */
-    public function PageThree(Request $request, Response $response, array $args): ?Response {
+    public function pageThree(Request $request, Response $response, array $args): ?Response {
         return $this->renderPublicPage($response, 'pages/page-3.twig', 'Admin com ACL', 'Autenticacao, perfis e permissoes por rota ja estao integrados.');
     }
 

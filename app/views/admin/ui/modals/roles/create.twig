@@ -1,4 +1,5 @@
 <form id="formModal" name="formModal" method="post" action="{{ base_url() }}/admin/users/roles/save" class="form-horizontal" autocomplete="off">
+    {{ csrf_field() }}
     <input name="_type" type="hidden" value="role">
     <input name="id" type="hidden" value="{{ role.id }}">
 

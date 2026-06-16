@@ -28,6 +28,7 @@
                         <h3 class="login-box-msg text-uppercase">Área Restrita</h3>
 
                         <form id="FormUser" action="{{ base_url() }}/auth" class="form-horizontal" method="post" autocomplete="off">
+                            {{ csrf_field() }}
                             <div class="form-group">
                                 <input type="text" name="login" class="form-control form-control-lg" placeholder="Login ou e-mail" autocomplete="username" required>
                             </div>

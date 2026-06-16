@@ -12,6 +12,7 @@ function checkValidLogin(el, baseUrl) {
     if (el.val()) {
         var param = {};
         param.login = el.val();
+        param._csrf = $('form[id="FormUser"]').find('input[name="_csrf"]').val();
 
         if (window.location.protocol !== 'http:') {
             baseUrl = (window.location.protocol + '//' + window.location.host);

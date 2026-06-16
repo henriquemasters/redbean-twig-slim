@@ -26,6 +26,8 @@ class Profile extends R {
      * @return int|null ID do bean armazenado.
      */
     public static function save(array $data): ?int {
+        unset($data['_csrf'], $data['_METHOD']);
+
         return R::store(R::dispense($data));
     }
 

@@ -1,5 +1,6 @@
 <div class="tab-pane" id="edit">
     <form action="{{ base_url() }}/admin/profile/save" method="post" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+        {{ csrf_field() }}
         <input type="hidden" name="profile[_type]" value="profile">
         <input type="hidden" name="profile[id]" value="{{ profile.id }}">
         <input type="hidden" name="profile[user_id]" value="{{ session.user_auth.id }}">

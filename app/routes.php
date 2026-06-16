@@ -14,9 +14,9 @@ use App\Controller\DashController;
  * action de controller e deixa o Twig cuidar da camada de apresentacao.
  */
 $app->get('/', SiteController::class . ':home')->setName('homepage');
-$app->get('/page-1', SiteController::class . ':PageOne')->setName('page1');
-$app->get('/page-2', SiteController::class . ':PageTwo')->setName('page2');
-$app->get('/page-3', SiteController::class . ':PageThree')->setName('page3');
+$app->get('/page-1', SiteController::class . ':pageOne')->setName('page1');
+$app->get('/page-2', SiteController::class . ':pageTwo')->setName('page2');
+$app->get('/page-3', SiteController::class . ':pageThree')->setName('page3');
 
 /**
  * Rotas de autenticacao.
@@ -60,9 +60,9 @@ $app->group('/admin', function () use ($app) {
         $app->post('/save-photo', ProfileController::class . ':changePhoto')->setName('profileSavePhoto');
         $app->post('/save-newpass', ProfileController::class . ':changePass')->setName('profileChangePass');
     });
-})->add($aclMiddleware)->add(function ($request, $response, $next) {
+})->add($aclMiddleware)->add(function ($request, $response, $next) use ($app) {
     if (!isset($_SESSION['user_auth'])) {
-        return $response->withRedirect('../login');
+        return $response->withRedirect($app->getContainer()->router->pathFor('login'));
     }
 
     return $next($request, $response);

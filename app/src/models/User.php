@@ -66,7 +66,7 @@ class User extends R {
      * @return int|null ID do bean armazenado.
      */
     public static function save(array $data): ?int {
-        unset($data['confirmpassword']);
+        unset($data['confirmpassword'], $data['_csrf'], $data['_METHOD']);
 
         if (!empty($data['pass']) && self::passwordNeedsRehash((string) $data['pass'])) {
             $data['pass'] = password_hash($data['pass'], PASSWORD_DEFAULT);
