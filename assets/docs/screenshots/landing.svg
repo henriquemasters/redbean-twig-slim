@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Landing publica do RedBean Twig Slim</title>
+  <desc id="desc">Preview da pagina inicial com hero, stack e cards de recursos.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7efe3"/><stop offset="1" stop-color="#efe1ce"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#344d3f" flood-opacity="0.16"/></filter>
+  </defs>
+  <rect width="1280" height="760" fill="url(#bg)"/>
+  <circle cx="180" cy="80" r="250" fill="#dca94b" opacity="0.25"/>
+  <circle cx="1110" cy="120" r="220" fill="#b95f38" opacity="0.18"/>
+  <rect x="64" y="42" width="1152" height="64" rx="28" fill="#fffaf1" opacity="0.78"/>
+  <text x="94" y="83" font-family="Space Grotesk, Arial" font-size="24" font-weight="700" fill="#17130f">RedBean Twig Slim</text>
+  <text x="870" y="83" font-family="Space Grotesk, Arial" font-size="18" fill="#695f55">Rotas   Dados   Admin</text>
+  <rect x="1092" y="58" width="88" height="32" rx="16" fill="#344d3f"/>
+  <text x="1119" y="80" font-family="Space Grotesk, Arial" font-size="15" font-weight="700" fill="#fffaf1">Entrar</text>
+  <text x="86" y="198" font-family="Space Grotesk, Arial" font-size="15" font-weight="700" letter-spacing="2" fill="#b95f38">MICROFRAMEWORK AUTORAL</text>
+  <text x="86" y="300" font-family="Georgia, serif" font-size="78" font-weight="700" fill="#17130f">Uma base PHP enxuta</text>
+  <text x="86" y="382" font-family="Georgia, serif" font-size="78" font-weight="700" fill="#17130f">para MVPs e POCs.</text>
+  <text x="90" y="440" font-family="Arial" font-size="23" fill="#695f55">Slim 3, Twig, RedBeanPHP, ACL e painel administrativo funcional.</text>
+  <rect x="90" y="492" width="148" height="48" rx="24" fill="#17130f"/><text x="124" y="523" font-family="Arial" font-size="17" font-weight="700" fill="#fffaf1">Ver recursos</text>
+  <rect x="254" y="492" width="150" height="48" rx="24" fill="#fffaf1" stroke="#d7c7b3"/><text x="288" y="523" font-family="Arial" font-size="17" font-weight="700" fill="#17130f">Acessar admin</text>
+  <g filter="url(#shadow)">
+    <rect x="820" y="180" width="330" height="390" rx="34" fill="#fffaf1" opacity="0.82" stroke="#d7c7b3"/>
+    <text x="852" y="232" font-family="Arial" font-size="15" font-weight="700" fill="#695f55">STACK PRINCIPAL</text>
+    <g font-family="Arial" font-size="18" fill="#17130f">
+      <rect x="852" y="264" width="266" height="58" rx="18" fill="#f7efe3"/><text x="874" y="300">Slim 3 - rotas e middleware</text>
+      <rect x="852" y="338" width="266" height="58" rx="18" fill="#f7efe3"/><text x="874" y="374">Twig 3 - templates</text>
+      <rect x="852" y="412" width="266" height="58" rx="18" fill="#f7efe3"/><text x="874" y="448">RedBeanPHP - CRUD rapido</text>
+      <rect x="852" y="486" width="266" height="58" rx="18" fill="#f7efe3"/><text x="874" y="522">ACL - permissoes por rota</text>
+    </g>
+  </g>
+</svg>

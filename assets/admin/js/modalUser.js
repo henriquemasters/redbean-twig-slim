@@ -1,5 +1,5 @@
 function doModalUser() {
-    $('body').find('a[rel=modal]').on('click', function (evt) {
+    $('body').off('click', 'a[rel=modal]').on('click', 'a[rel=modal]', function (evt) {
         evt.preventDefault();
         var modal = $('#modalForm');
         var title = $(this).attr('title');

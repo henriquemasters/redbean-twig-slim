@@ -6,6 +6,7 @@ use App\Controller\RoleController;
 use App\Controller\UserController;
 use App\Controller\ProfileController;
 use App\Controller\DashController;
+use App\Controller\ProjectController;
 
 /**
  * Rotas publicas de apresentacao.
@@ -34,6 +35,15 @@ $app->post('/forgot-password', AuthController::class . ':forgotPassword')->setNa
 $app->group('/admin', function () use ($app) {
 
     $app->get('/home', DashController::class . ':index')->setName('dashBoard');
+
+    $app->group('/projects', function () use ($app) {
+        $app->get('/list', ProjectController::class . ':index')->setName('projectList');
+        $app->get('/create', ProjectController::class . ':create')->setName('projectCreate');
+        $app->post('/save', ProjectController::class . ':create')->setName('projectSave');
+        $app->get('/update/{id}', ProjectController::class . ':create')->setName('projectEdit');
+        $app->get('/delete/{id}', ProjectController::class . ':delete')->setName('projectConfirmDelete');
+        $app->delete('/delete', ProjectController::class . ':delete')->setName('projectDelete');
+    });
 
     $app->group('/users', function () use ($app) {
         $app->get('/list', UserController::class . ':index')->setName('userList');

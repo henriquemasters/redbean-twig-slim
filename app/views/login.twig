@@ -3,91 +3,80 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Efetue Login</title>
+        <title>Área Restrita · RedBean Twig Slim</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/fontawesome-free/css/all.min.css" />
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
         <link rel="stylesheet" href="{{ base_url() }}/assets/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
         <link rel="stylesheet" href="{{ base_url() }}/assets/admin/css/theme.min.css" />
-
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
         <link href="{{ base_url() }}/assets/admin/css/custom.css" rel="stylesheet" />
     </head>
-    <body>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6 left-wraper text-center">
-                    <a href="{{ base_url() }}" class="login-brand" title="RedBean Twig Slim">RedBean Twig Slim</a>
-                    <h1>Seja bem-vindo!</h1>
+    <body class="portfolio-login">
+        <main class="login-showcase">
+            <section class="login-story">
+                <a href="{{ base_url() }}" class="login-brand" title="Voltar para a vitrine">RedBean Twig Slim</a>
+                <span class="login-eyebrow">Área restrita</span>
+                <h1>Admin pronto para validar MVPs sem carregar um framework full-stack.</h1>
+                <p>Login, dashboard, ACL por rota, CRUDs, perfil e upload de foto em uma base PHP pequena, direta e fácil de evoluir.</p>
+                <div class="login-proof-grid">
+                    <span>Slim 3</span>
+                    <span>Twig 3</span>
+                    <span>RedBeanPHP</span>
+                    <span>ACL</span>
                 </div>
-                <div class="col-md-6 right-wraper">
+            </section>
 
-                    <div class="card-body login-card-body">
-                        <h3 class="login-box-msg text-uppercase">Área Restrita</h3>
+            <section class="login-card-panel">
+                <div class="login-card-body" style="background-color: transparent">
+                    <span class="login-eyebrow">Acesso administrativo</span>
+                    <h2>Entrar no painel</h2>
+                    <p class="login-card-lead">Use as credenciais iniciais após importar o seed local.</p>
 
-                        <form id="FormUser" action="{{ base_url() }}/auth" class="form-horizontal" method="post" autocomplete="off">
-                            {{ csrf_field() }}
-                            <div class="form-group">
-                                <input type="text" name="login" class="form-control form-control-lg" placeholder="Login ou e-mail" autocomplete="username" required>
-                            </div>
-                            <!--<div class="form-group">
-                                <input type="password" name="pass" class="form-control form-control-lg" placeholder="Senha">
-                            </div>-->
+                    <form id="FormUser" action="{{ base_url() }}/auth" class="form-horizontal" method="post" autocomplete="off">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <label>Login ou e-mail</label>
+                            <input type="text" name="login" class="form-control form-control-lg" placeholder="admin@admin" autocomplete="username" required>
+                        </div>
 
-                            <div id="show_hide_password" class="input-group mb-3">
-                                <input type="password" name="pass" class="form-control form-control-lg" placeholder="Senha" autocomplete="current-password" required>
+                        <div id="show_hide_password" class="form-group">
+                            <label>Senha</label>
+                            <div class="input-group">
+                                <input type="password" name="pass" class="form-control form-control-lg" placeholder="Digite sua senha" autocomplete="current-password" required>
                                 <div class="input-group-append toggle-password">
                                     <div class="input-group-text">
                                         <a href=""><i class="fa fa-eye-slash"></i></a>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <!--<div class="col-8">
-                                    <div class="icheck-primary">
-                                        <input type="checkbox" id="remember">
-                                        <label for="remember"> Manter-me Conectado </label>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                -->
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-lg btn-primary btn-block">Entrar</button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div class="alert alert-light border small mt-3 mb-0">
-                            <strong>Acesso inicial:</strong><br>
-                            Login: <code>admin@admin</code><br>
-                            Senha: <code>123</code>
                         </div>
 
-                        <p><br /></p>
-                        <p class="mb-3 mt-3 text-center"> <a href="{{ base_url() }}/forgot-password">Esqueci Minha Senha</a> </p>
-                        {#<p class="mb-0 text-center"> <a href="register.html" class="register-button">Faça seu Cadastro</a> </p>#}
-                        <p class="mb-0 text-center">&nbsp;</p>
+                        <button type="submit" class="btn btn-lg btn-primary btn-block login-submit">Entrar</button>
+                    </form>
+
+                    <div class="login-seed-box">
+                        <strong>Acesso inicial</strong>
+                        <span>Login: <code>admin@admin</code></span>
+                        <span>Senha: <code>123</code></span>
                     </div>
 
+                    <p class="login-links"><a href="{{ base_url() }}/forgot-password">Esqueci minha senha</a></p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="footer col-md-12">
-                    Copyright &copy; 2020 - {{ 'now'|date('Y') }}. Desenvolvido usando RedBeanPHP + Twig + SlimPHP 3
-                    <p>&nbsp;</p>
-                </div>
-            </div>
-        </div>
+            </section>
+        </main>
+
+        <footer class="login-footer">
+            Projeto autoral de Henrique Mariano · RedBeanPHP + Twig + SlimPHP 3
+        </footer>
 
         <script src="{{ base_url() }}/assets/admin/plugins/jquery/jquery.min.js"></script>
         <script src="{{ base_url() }}/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="{{ base_url() }}/assets/admin/js/theme.min.js"></script>
-
         <script src="{{ base_url() }}/assets/admin/js/login.js"></script>
         <script src="{{ base_url() }}/assets/js/lib/hideShowPassword.min.js"></script>
-        
     </body>
 </html>

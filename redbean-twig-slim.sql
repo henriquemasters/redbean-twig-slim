@@ -38,7 +38,13 @@ INSERT INTO `permission` (`id`, `role_id`, `method`, `pattern`, `status`) VALUES
 (984, 1, 'POST', '/admin/profile/save', 'allow'),
 (985, 1, 'GET', '/admin/profile/change-photo', 'allow'),
 (986, 1, 'POST', '/admin/profile/save-photo', 'allow'),
-(987, 1, 'POST', '/admin/profile/save-newpass', 'allow');
+(987, 1, 'POST', '/admin/profile/save-newpass', 'allow'),
+(988, 1, 'GET', '/admin/projects/list', 'allow'),
+(989, 1, 'GET', '/admin/projects/create', 'allow'),
+(990, 1, 'POST', '/admin/projects/save', 'allow'),
+(991, 1, 'GET', '/admin/projects/update/{id}', 'allow'),
+(992, 1, 'GET', '/admin/projects/delete/{id}', 'allow'),
+(993, 1, 'DELETE', '/admin/projects/delete', 'allow');
 
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
@@ -92,6 +98,23 @@ TRUNCATE TABLE `profile`;
 INSERT INTO `profile` (`id`, `user_id`, `fullname`, `memberstatus`, `email`, `updateat`) VALUES
 (1, 1, 'User Admin', 'Ativo', 'admin@admin', '2021-10-21 14:46:23');
 
+DROP TABLE IF EXISTS `project`;
+CREATE TABLE `project` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `client` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `status` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `budget` decimal(10,2) DEFAULT NULL,
+  `deliverydate` date DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_520_ci,
+  `createdat` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+TRUNCATE TABLE `project`;
+INSERT INTO `project` (`id`, `name`, `client`, `status`, `budget`, `deliverydate`, `description`, `createdat`) VALUES
+(1, 'Portal de validação de MVP', 'Cliente piloto', 'mvp', 4500.00, '2026-07-15', 'CRUD de demonstração para apresentar como a base acelera backoffices pequenos.', '2026-06-15 10:00:00'),
+(2, 'POC de painel operacional', 'Operação interna', 'validacao', 2800.00, '2026-07-30', 'Exemplo de cadastro simples usando Slim, Twig, RedBeanPHP, CSRF e ACL.', '2026-06-15 10:10:00');
+
 
 ALTER TABLE `permission`
   ADD PRIMARY KEY (`id`),
@@ -108,6 +131,9 @@ ALTER TABLE `profile`
   ADD PRIMARY KEY (`id`),
   ADD KEY `index_foreignkey_profile_user` (`user_id`);
 
+ALTER TABLE `project`
+  ADD PRIMARY KEY (`id`);
+
 
 ALTER TABLE `permission`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1006;
@@ -120,6 +146,9 @@ ALTER TABLE `user`
 
 ALTER TABLE `profile`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+ALTER TABLE `project`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 
 ALTER TABLE `permission`

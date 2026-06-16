@@ -2,15 +2,15 @@
 
 Microframework PHP autoral para criar MVPs, POCs e pequenas aplicações administrativas com rapidez, mantendo uma estrutura MVC clara e fácil de explicar em portfólio técnico.
 
-A proposta do projeto e simples: entregar uma base funcional com roteamento, templates, persistência, autenticação, painel administrativo, upload de perfil e ACL por rota sem exigir a complexidade de um framework full-stack.
+A proposta do projeto é simples: entregar uma base funcional com roteamento, templates, persistência, autenticação, painel administrativo, upload de perfil, CSRF, ACL por rota e um CRUD de exemplo sem exigir a complexidade de um framework full-stack.
 
 ## Por que este projeto existe
 
 MVPs e POCs normalmente precisam responder rápido a três perguntas:
 
 - A ideia funciona para o usuário?
-- O fluxo administrativo resolve a operação minima?
-- A base técnica permite evoluir sem virar um prototipo descartável?
+- O fluxo administrativo resolve a operação mínima?
+- A base técnica permite evoluir sem virar um protótipo descartável?
 
 Este projeto foi criado para esse tipo de cenário. Ele combina bibliotecas maduras do ecossistema PHP em uma estrutura pequena, direta e customizável.
 
@@ -18,11 +18,11 @@ Este projeto foi criado para esse tipo de cenário. Ele combina bibliotecas madu
 
 - **Arquitetura MVC objetiva:** controllers orquestram request/response, models encapsulam RedBeanPHP e Twig cuida da apresentação.
 - **Roteamento Slim 3:** rotas declarativas em `app/routes.php`, grupos protegidos e middleware por contexto.
-- **Templates Twig:** herança de layout, helpers, blocos de estilos/scripts e paginas publicas customizáveis.
-- **Persistência com RedBeanPHP:** CRUD rápido para usuários, perfis, grupos e permissões.
-- **Painel administrativo:** login, dashboard, cadastro de usuários, grupos, perfil e upload de foto.
-- **ACL por rota:** permissões persistidas no banco e avaliadas no middleware antes de acessar `/admin/*`.
-- **Base para portfólio:** landing pública preparada para apresentar o projeto como case técnico.
+- **Templates Twig:** herança de layout, helpers, blocos de estilos/scripts e páginas públicas customizáveis.
+- **Persistência com RedBeanPHP:** CRUD rápido para usuários, perfis, grupos, permissões e projetos.
+- **Painel administrativo:** login, dashboard, cadastro de usuários, grupos, perfil, upload de foto e módulo de projetos.
+- **Segurança pragmática:** senha com `password_hash()`, CSRF em formulários e ACL por rota.
+- **Base para portfólio:** landing, login, dashboard e CRUD de case preparados para apresentar o projeto como vitrine técnica.
 
 ## Stack principal
 
@@ -41,16 +41,20 @@ Este projeto foi criado para esse tipo de cenário. Ele combina bibliotecas madu
 ```text
 app/
   routes.php              # Mapa de rotas públicas, autenticação e admin
-  dependencies.php        # Container Slim: Twig, logger, handlers, controllers
-  middleware.php          # Middleware de ACL para área administrativa
+  dependencies.php        # Container Slim: Twig, logger, serviços e controllers
+  middleware.php          # CSRF, autenticação e ACL para área administrativa
   database.php            # Bootstrap da conexão RedBeanPHP
   src/
     controllers/          # Actions PSR-7 da aplicação
     models/               # Helpers de persistência com RedBeanPHP
+    services/             # Serviços de sessão/autenticação e CSRF
   views/                  # Templates Twig públicos e administrativos
 assets/
   css/site.css            # Identidade visual da landing pública
   admin/                  # Tema e plugins da área administrativa
+  docs/screenshots/       # Imagens usadas no README
+scripts/
+  smoke-test.php          # Validação rápida de arquivos, rotas e ambiente
 redbean-twig-slim.sql     # Estrutura/dados iniciais do banco
 index.php                 # Front controller Slim
 ```
@@ -60,9 +64,10 @@ index.php                 # Front controller Slim
 1. `index.php` carrega Composer, inicia sessão, configura Slim e registra dependências, middleware e rotas.
 2. `app/routes.php` conecta URLs a actions de controllers.
 3. Controllers recebem `Request`, `Response` e argumentos da rota.
-4. Models usam RedBeanPHP para consultar e persistir dados.
-5. Twig renderiza a resposta HTML.
-6. Rotas `/admin/*` passam por autenticação de sessão e ACL por rota.
+4. Services concentram regras transversais, como sessão autenticada, ACL e CSRF.
+5. Models usam RedBeanPHP para consultar e persistir dados.
+6. Twig renderiza a resposta HTML.
+7. Rotas `/admin/*` passam por autenticação de sessão e ACL por rota.
 
 ## Instalação local
 
@@ -100,15 +105,15 @@ mysql -u root -p myapp < redbean-twig-slim.sql
 
 Ajuste as credenciais em `.env` quando necessário. Para o passo a passo completo, consulte `INSTALL.md`.
 
-## Paginas de demonstração
+## Páginas de demonstração
 
 - `/` apresenta a landing do case.
 - `/page-1` demonstra a ligação entre rota, controller e Twig.
 - `/page-2` explica a camada de models e persistência.
-- `/page-3` apresenta a area administrativa e ACL.
+- `/page-3` apresenta a área administrativa e ACL.
 - `/login` acessa o fluxo autenticado.
 
-## Acesso inicial ao admin
+## Área administrativa
 
 Depois de importar o arquivo `redbean-twig-slim.sql`, acesse `/login` com:
 
@@ -117,7 +122,48 @@ Depois de importar o arquivo `redbean-twig-slim.sql`, acesse `/login` com:
 
 O seed inicial usa `password_hash()` para armazenar a senha. Senhas antigas em MD5 ainda são aceitas temporariamente e migradas automaticamente para hash seguro no primeiro login bem-sucedido.
 
-## Pontos de extensao
+### Módulo de case: Projetos
+
+O CRUD de `Projetos` demonstra como estender o microframework com um módulo administrativo completo:
+
+- Controller em `app/src/controllers/ProjectController.php`.
+- Model em `app/src/models/Project.php`.
+- Views Twig em `app/views/admin/pages/projects.twig` e `app/views/admin/ui/modals/projects`.
+- Rotas protegidas em `/admin/projects/*`.
+- Permissões ACL no seed SQL.
+- Formulários com CSRF e validação server-side mínima.
+
+## Smoke tests
+
+Execute a validação básica:
+
+```sh
+composer smoke
+```
+
+Se o ambiente local não resolver o PHP corretamente pelo Composer, execute diretamente:
+
+```sh
+php scripts/smoke-test.php
+```
+
+Esse teste verifica arquivos críticos, rotas principais e conteúdo do seed SQL. Para validar banco e endpoints HTTP reais:
+
+```sh
+set SMOKE_DB=1
+set SMOKE_BASE_URL=http://localhost/redbean-twig-slim
+composer smoke
+```
+
+No PowerShell:
+
+```powershell
+$env:SMOKE_DB='1'
+$env:SMOKE_BASE_URL='http://localhost/redbean-twig-slim'
+composer smoke
+```
+
+## Pontos de extensão
 
 - Criar novos controllers em `app/src/controllers`.
 - Criar novos models em `app/src/models`.
@@ -139,13 +185,13 @@ Este projeto nasceu como base para MVPs e POCs. Antes de usar em produção, rev
 
 ## Como apresentar este case
 
-Este repositório demonstra capacidade de integrar bibliotecas PHP, estruturar uma aplicação MVC, criar uma area administrativa funcional, aplicar controle de acesso por rota e entregar uma interface publica com narrativa de produto.
+Este repositório demonstra capacidade de integrar bibliotecas PHP, estruturar uma aplicação MVC, criar uma área administrativa funcional, aplicar controle de acesso por rota e entregar uma interface pública com narrativa de produto.
 
-Ele e especialmente adequado para mostrar experiência em:
+Ele é especialmente adequado para mostrar experiência em:
 
-- Desenvolvimento PHP pragmática.
-- Organização de projetos pequenos e medios.
-- Integracão de dependências via Composer.
+- Desenvolvimento PHP pragmático.
+- Organização de projetos pequenos e médios.
+- Integração de dependências via Composer.
 - Backoffice para validação de negócios.
 - Evolução de legado e documentação de código existente.
 
@@ -157,4 +203,4 @@ Você pode usar, estudar, modificar e redistribuir este tema, inclusive em forks
 
 Autor original: Henrique Mariano dos Santos Silva.
 
-Este software e fornecido sem garantia de funcionamento, suporte ou adequação a qualquer finalidade específica. Veja `LICENSE` para os termos completos.
+Este software e fornecido sem garantia de funcionamento, suporte ou adequação a qualquer finalidade específica. Veja LICENSE para os termos completos.

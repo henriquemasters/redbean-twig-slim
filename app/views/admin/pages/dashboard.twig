@@ -35,11 +35,11 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>{{ metrics.roles }}</h3>
-                            <p>Grupos</p>
+                            <h3>{{ metrics.projects }}</h3>
+                            <p>Projetos</p>
                         </div>
-                        <div class="icon"><i class="fas fa-user-shield"></i></div>
-                        <a href="{{ base_url() }}/admin/users/roles/list" class="small-box-footer">Gerenciar grupos <i class="fas fa-arrow-circle-right"></i></a>
+                        <div class="icon"><i class="fas fa-briefcase"></i></div>
+                        <a href="{{ base_url() }}/admin/projects/list" class="small-box-footer">Ver case CRUD <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
@@ -101,6 +101,7 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="list-group list-group-flush">
+                                <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/projects/list">Projetos de case</a>
                                 <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/users/list">Usuários</a>
                                 <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/users/roles/list">Grupos e permissões</a>
                                 <a class="list-group-item list-group-item-action" href="{{ base_url() }}/admin/profile">Meu perfil</a>

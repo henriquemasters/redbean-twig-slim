@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">CRUD de projetos</title>
+  <desc id="desc">Preview do modulo Projetos dentro do admin.</desc>
+  <rect width="1280" height="760" fill="#e9e9e9"/>
+  <rect x="0" y="0" width="250" height="760" fill="#343a40"/>
+  <rect x="250" y="0" width="1030" height="58" fill="#d81b60"/>
+  <text x="42" y="38" font-family="Arial" font-size="22" font-weight="700" fill="#fff">RedBean Twig Slim</text>
+  <text x="36" y="174" font-family="Arial" font-size="18" fill="#adb5bd">Inicio</text>
+  <rect x="22" y="196" width="206" height="42" rx="8" fill="#495057"/><text x="36" y="224" font-family="Arial" font-size="18" fill="#fff">Projetos</text>
+  <text x="292" y="112" font-family="Arial" font-size="32" font-weight="700" fill="#212529">Projetos</text>
+  <rect x="292" y="150" width="912" height="486" rx="8" fill="#fff" stroke="#dee2e6"/>
+  <text x="322" y="202" font-family="Arial" font-size="22" font-weight="700" fill="#212529">Projetos de case:</text>
+  <rect x="1040" y="176" width="126" height="36" rx="6" fill="#007bff"/><text x="1064" y="200" font-family="Arial" font-size="15" font-weight="700" fill="#fff">Adicionar</text>
+  <rect x="322" y="248" width="842" height="52" fill="#f8f9fa"/>
+  <text x="346" y="281" font-family="Arial" font-size="16" font-weight="700" fill="#212529">#</text>
+  <text x="406" y="281" font-family="Arial" font-size="16" font-weight="700" fill="#212529">Projeto</text>
+  <text x="700" y="281" font-family="Arial" font-size="16" font-weight="700" fill="#212529">Cliente</text>
+  <text x="910" y="281" font-family="Arial" font-size="16" font-weight="700" fill="#212529">Status</text>
+  <line x1="322" y1="322" x2="1164" y2="322" stroke="#dee2e6"/>
+  <text x="346" y="360" font-family="Arial" font-size="16" fill="#495057">1</text>
+  <text x="406" y="350" font-family="Arial" font-size="17" font-weight="700" fill="#212529">PORTAL DE VALIDACAO DE MVP</text>
+  <text x="406" y="378" font-family="Arial" font-size="14" fill="#6c757d">CRUD de demonstracao para backoffices pequenos.</text>
+  <text x="700" y="360" font-family="Arial" font-size="16" fill="#495057">Cliente piloto</text>
+  <rect x="910" y="338" width="76" height="28" rx="14" fill="#17a2b8"/><text x="932" y="357" font-family="Arial" font-size="13" font-weight="700" fill="#fff">MVP</text>
+  <line x1="322" y1="406" x2="1164" y2="406" stroke="#dee2e6"/>
+  <text x="346" y="444" font-family="Arial" font-size="16" fill="#495057">2</text>
+  <text x="406" y="434" font-family="Arial" font-size="17" font-weight="700" fill="#212529">POC DE PAINEL OPERACIONAL</text>
+  <text x="406" y="462" font-family="Arial" font-size="14" fill="#6c757d">Slim, Twig, RedBeanPHP, CSRF e ACL.</text>
+  <text x="700" y="444" font-family="Arial" font-size="16" fill="#495057">Operacao interna</text>
+  <rect x="910" y="422" width="118" height="28" rx="14" fill="#17a2b8"/><text x="930" y="441" font-family="Arial" font-size="13" font-weight="700" fill="#fff">VALIDACAO</text>
+</svg>
