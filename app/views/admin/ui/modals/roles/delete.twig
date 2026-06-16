@@ -1,4 +1,5 @@
 <form name="formModal" method="post" action="{{ base_url() }}/admin/users/roles/delete" class="form-horizontal">
+    {{ csrf_field() }}
     <input name="id" type="hidden" value="{{ data.id }}">
     <input name="_METHOD" type="hidden" value="DELETE">
 

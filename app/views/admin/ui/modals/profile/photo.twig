@@ -1,4 +1,5 @@
 <form name="formModal" method="post" action="{{ base_url() }}/admin/profile/save-photo" enctype="multipart/form-data" class="form-horizontal" autocomplete="off">
+    {{ csrf_field() }}
     <input name="userId" type="hidden" value="{{ user.id }}">
     <div class="modal-body small">
 

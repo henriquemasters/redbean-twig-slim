@@ -28,6 +28,15 @@ class BaseController {
     /** @var string Caminho absoluto usado pelas rotinas de upload. */
     protected $upload_dir;
 
+    /** @var \Slim\Router Roteador usado para gerar URLs por nome de rota. */
+    protected $router;
+
+    /** @var \App\Service\AuthSessionService Servico de sessao autenticada e ACL. */
+    protected $authSession;
+
+    /** @var \App\Service\CsrfService Servico de protecao CSRF. */
+    protected $csrf;
+
     /**
      * Recebe o container do Slim e armazena servicos compartilhados.
      *
@@ -39,6 +48,9 @@ class BaseController {
         $this->flash = $c->get('flash');
         $this->allroutes = $c->get('allroutes');
         $this->upload_dir = $c->get('upload_dir');
+        $this->router = $c->get('router');
+        $this->authSession = $c->get('authSession');
+        $this->csrf = $c->get('csrf');
     }
 
 }

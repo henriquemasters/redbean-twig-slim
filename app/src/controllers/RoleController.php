@@ -11,11 +11,6 @@ final class RoleController extends BaseController {
 
     /**
      * Lista os grupos gerenciados no painel administrativo.
-     *
-     * @param Request $request Requisicao PSR-7 atual.
-     * @param Response $response Resposta PSR-7 atual.
-     * @param array $args Argumentos da rota fornecidos pelo Slim.
-     * @return Response|null Resposta renderizada.
      */
     public function index(Request $request, Response $response, array $args): ?Response {
         $this->view->render($response, 'admin/pages/roles.twig', [
@@ -29,11 +24,6 @@ final class RoleController extends BaseController {
 
     /**
      * Exibe o formulario de grupo ou salva o grupo com suas permissoes por rota.
-     *
-     * @param Request $request Requisicao PSR-7 atual.
-     * @param Response $response Resposta PSR-7 atual.
-     * @param array $args Argumentos da rota fornecidos pelo Slim.
-     * @return Response|null Resposta renderizada ou redirecionamento.
      */
     public function create(Request $request, Response $response, array $args): ?Response {
         if (!$request->isPost()) {
@@ -42,38 +32,48 @@ final class RoleController extends BaseController {
                 'allroutes' => $this->listRoutes($roleId),
                 'role' => Role::getOne($roleId)
             ]);
-        } else {
-            // As permissoes sao reconstruidas a partir da matriz enviada pelo formulario
-            // para evitar regras antigas apos a edicao de um grupo.
-            Permission::hunt('permission', 'role_id = ?', [$request->getParsedBody()['id']]);
-            Role::save($request->getParsedBody());
 
-            $response = $response->withRedirect('../roles/list');
+            return $response;
         }
 
-        return $response;
+        $data = $request->getParsedBody();
+        $roleId = (int) ($data['id'] ?? 0);
+        $name = trim($data['name'] ?? '');
+
+        if ($name === '') {
+            return $response->withRedirect($this->router->pathFor('roleList'));
+        }
+
+        // As permissoes sao reconstruidas a partir da matriz enviada pelo formulario
+        // para evitar regras antigas apos a edicao de um grupo.
+        if ($roleId > 0) {
+            Permission::hunt('permission', 'role_id = ?', [$roleId]);
+        }
+        Role::save($data);
+
+        return $response->withRedirect($this->router->pathFor('roleList'));
     }
 
     /**
      * Exibe o modal de confirmacao ou remove um grupo.
-     *
-     * @param Request $request Requisicao PSR-7 atual.
-     * @param Response $response Resposta PSR-7 atual.
-     * @param array $args Argumentos da rota fornecidos pelo Slim.
-     * @return Response|null Resposta renderizada ou redirecionamento.
      */
     public function delete(Request $request, Response $response, array $args): ?Response {
         if (!$request->isDelete()) {
             $this->view->render($response, 'admin/ui/modals/roles/delete.twig', [
                 'data' => Role::findOne('role', 'id = ?', [$args['id']]),
             ]);
-        } else {
-            $data = $request->getParsedBody();
-            Role::hunt('role', 'id = ?', [$data['id']]);
-            $response = $response->withRedirect('../roles/list');
+
+            return $response;
         }
 
-        return $response;
+        $data = $request->getParsedBody();
+        $id = (int) ($data['id'] ?? 0);
+
+        if ($id > 0) {
+            Role::hunt('role', 'id = ?', [$id]);
+        }
+
+        return $response->withRedirect($this->router->pathFor('roleList'));
     }
 
     /**

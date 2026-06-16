@@ -12,11 +12,6 @@ final class ProfileController extends BaseController {
 
     /**
      * Exibe a pagina de perfil do usuario autenticado.
-     *
-     * @param Request $request Requisicao PSR-7 atual.
-     * @param Response $response Resposta PSR-7 atual.
-     * @param array $args Argumentos da rota fornecidos pelo Slim.
-     * @return Response|null Resposta renderizada.
      */
     public function index(Request $request, Response $response, array $args): ?Response {
         $this->view->render($response, 'admin/pages/profile.twig', [
@@ -30,83 +25,74 @@ final class ProfileController extends BaseController {
 
     /**
      * Salva os dados enviados pelo formulario de perfil.
-     *
-     * O nome exibido do usuario e derivado do nome completo do perfil para manter
-     * menu/cabecalho sincronizados com o registro mais completo de perfil.
-     *
-     * @param Request $request Requisicao PSR-7 atual.
-     * @param Response $response Resposta PSR-7 atual.
-     * @param array $args Argumentos da rota fornecidos pelo Slim.
-     * @return Response|null Resposta de redirecionamento.
      */
     public function create(Request $request, Response $response, array $args): ?Response {
         if ($request->isPost()) {
-            $profile = $request->getParsedBody()['profile'];
+            $profile = $request->getParsedBody()['profile'] ?? [];
+            $requiredFields = ['user_id', 'fullname', 'bornat', 'gender', 'maritalstatus', 'phone1', 'district', 'address', 'city'];
 
-            User::updateName($profile['user_id'], $this->getShortName($profile['fullname']));
+            foreach ($requiredFields as $field) {
+                if (trim((string) ($profile[$field] ?? '')) === '') {
+                    return $response->withRedirect($this->router->pathFor('profile'));
+                }
+            }
+
+            User::updateName((int) $profile['user_id'], $this->getShortName($profile['fullname']));
             $profile['bornat'] = $profile['bornat'] ? date('Y-m-d', strtotime(str_replace('/', '-', $profile['bornat']))) : null;
 
             Profile::save($profile);
         }
 
-        return $response->withRedirect('../profile');
+        return $response->withRedirect($this->router->pathFor('profile'));
     }
 
     /**
      * Exibe o modal de foto ou grava um novo upload de foto do perfil.
-     *
-     * @param Request $request Requisicao PSR-7 atual.
-     * @param Response $response Resposta PSR-7 atual.
-     * @param array $args Argumentos da rota fornecidos pelo Slim.
-     * @return Response|null Resposta renderizada ou redirecionamento.
      */
     public function changePhoto(Request $request, Response $response, array $args): ?Response {
         if (!$request->isPost()) {
             $this->view->render($response, 'admin/ui/modals/profile/photo.twig', [
                 'user' => $_SESSION['user_auth']
             ]);
-        } else {
-            $userId = $request->getParsedBody()['userId'];
-            $newPhoto = $this->uploadProfilePhoto($request, (string) User::getPhoto($userId));
 
-            if ($newPhoto !== null) {
-                $baseUrl = $request->getUri()->getScheme() . '://' . $request->getUri()->getHost() . $request->getUri()->getBasePath();
-                $_SESSION['user_auth']['photo'] = $baseUrl . $newPhoto;
-                User::updatePhoto($userId, $newPhoto);
-            }
-
-            $response = $response->withRedirect('../profile');
+            return $response;
         }
 
-        return $response;
+        $userId = (int) ($request->getParsedBody()['userId'] ?? 0);
+        if ($userId <= 0 || !isset($request->getUploadedFiles()['photo'])) {
+            return $response->withRedirect($this->router->pathFor('profile'));
+        }
+
+        $newPhoto = $this->uploadProfilePhoto($request, (string) User::getPhoto($userId));
+
+        if ($newPhoto !== null) {
+            $baseUrl = $request->getUri()->getScheme() . '://' . $request->getUri()->getHost() . $request->getUri()->getBasePath();
+            $_SESSION['user_auth']['photo'] = $baseUrl . $newPhoto;
+            User::updatePhoto($userId, $newPhoto);
+        }
+
+        return $response->withRedirect($this->router->pathFor('profile'));
     }
 
     /**
      * Atualiza a senha do usuario atual.
-     *
-     * @param Request $request Requisicao PSR-7 atual.
-     * @param Response $response Resposta PSR-7 atual.
-     * @param array $args Argumentos da rota fornecidos pelo Slim.
-     * @return Response|null Resposta de redirecionamento.
      */
     public function changePass(Request $request, Response $response, array $args): ?Response {
         if ($request->isPost()) {
-            User::save($request->getParsedBody());
+            $data = $request->getParsedBody();
+            $password = (string) ($data['pass'] ?? '');
+            $confirmation = (string) ($data['confirmpassword'] ?? '');
+
+            if ($password !== '' && $password === $confirmation) {
+                User::save($data);
+            }
         }
 
-        return $response->withRedirect('../profile');
+        return $response->withRedirect($this->router->pathFor('profile'));
     }
 
     /**
      * Armazena o avatar enviado como JPG normalizado em 300x300.
-     *
-     * O banco guarda um caminho web (/uploads/...), enquanto este metodo escreve
-     * no caminho fisico configurado no container. Essa separacao e importante em
-     * deploys com virtual host ou proxy reverso.
-     *
-     * @param Request $request Requisicao PSR-7 atual contendo o arquivo enviado.
-     * @param string $oldPhoto Caminho web anterior armazenado na tabela user.
-     * @return string|null Novo caminho web ou null quando nao ha upload valido.
      */
     private function uploadProfilePhoto(Request $request, string $oldPhoto): ?string {
         $uploadedFile = $request->getUploadedFiles()['photo'];
@@ -141,9 +127,6 @@ final class ProfileController extends BaseController {
 
     /**
      * Converte um nome completo em um rotulo compacto com primeiro e ultimo nome.
-     *
-     * @param string $fullname Nome completo do perfil.
-     * @return string|null Nome compacto para exibicao.
      */
     private function getShortName(string $fullname): ?string {
         $parts = explode(' ', trim($fullname));
